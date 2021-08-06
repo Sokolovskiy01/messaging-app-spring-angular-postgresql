@@ -13,14 +13,17 @@ public class AppUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    private String name;
-    private String surname;
+    private String name; // stands for name and surname or custom nickname
     private LocalDate dateOfBirth;
     private String gender;
-    @Column(nullable = false)
-    private String email;
     private String imageUrl;
     private String comment;
+
+     /* Login credentials */
+    @Column(nullable = false, updatable = false, unique = true)
+    private String email;
+    @Column(nullable = false)
+    private String password;
 
     @Column(nullable = false)
     private UserStatus userStatus;
@@ -32,14 +35,14 @@ public class AppUser implements Serializable {
 
     public AppUser() {}
 
-    public AppUser(String name, String surname, LocalDate dateOfBirth, String gender, String email, String imageUrl, String comment, UserStatus userStatus, String banMessage, LocalDateTime lastLogin) {
+    public AppUser(String name, LocalDate dateOfBirth, String gender, String imageUrl, String comment, String email, String password, UserStatus userStatus, String banMessage, LocalDateTime lastLogin) {
         this.name = name;
-        this.surname = surname;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.email = email;
         this.imageUrl = imageUrl;
         this.comment = comment;
+        this.email = email;
+        this.password = password;
         this.userStatus = userStatus;
         this.banMessage = banMessage;
         this.lastLogin = lastLogin;
@@ -52,23 +55,23 @@ public class AppUser implements Serializable {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getSurname() { return surname; }
-    public void setSurname(String surname) { this.surname = surname; }
-
     public LocalDate getDateOfBirth() { return dateOfBirth; }
     public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
     public UserStatus getUserStatus() { return userStatus; }
     public void setUserStatus(UserStatus userStatus) { this.userStatus = userStatus; }
@@ -82,10 +85,4 @@ public class AppUser implements Serializable {
     public List<UsersChats> getUserChats() { return userChats; }
     public void setUserChats(List<UsersChats> userChats) { this.userChats = userChats; }
 
-}
-
-enum UserStatus {
-    Active, // normal user which can chat with everyone
-    Limited, // user that got many reports and not allowed to chat with people he's not friends with
-    Banned // user that has no longer access to app
 }
