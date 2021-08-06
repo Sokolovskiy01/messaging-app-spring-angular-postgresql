@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,7 +12,7 @@ public class AppUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private long id;
+    private Long id;
     private String name;
     private String surname;
     private LocalDate dateOfBirth;
@@ -48,8 +47,7 @@ public class AppUser implements Serializable {
 
     /* Getters and setters */
 
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    public Long getId() { return id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
