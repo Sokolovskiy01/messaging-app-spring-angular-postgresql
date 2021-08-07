@@ -29,7 +29,7 @@ public class ChatService {
         this.messageRepo = messageRepo;
     }
 
-    public Chat createChat(Chat chat, AppUser user1, AppUser user2) {
+    /*public Chat createChat(Chat chat, AppUser user1, AppUser user2) {
         // user1 created chat
         UsersChats user1ChatLink = new UsersChats(chat, user1, true);
         UsersChats user2ChatLink = new UsersChats(chat, user2, false);
@@ -72,14 +72,13 @@ public class ChatService {
     }
 
 
-
     public Chat updateChat(Chat chat) {
         return chatRepo.save(chat);
     }
 
     public void deleteChat(Chat chat) {
         chatRepo.deleteChatById(chat.getId());
-    }
+    }*/
 
 
 }

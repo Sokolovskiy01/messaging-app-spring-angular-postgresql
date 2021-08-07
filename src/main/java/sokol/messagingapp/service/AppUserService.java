@@ -25,10 +25,10 @@ public class AppUserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public AppUser createUser(AppUser newUser, String password) {
+    public AppUser createUser(AppUser newUser) {
         Optional<AppUser> existingUser = userRepo.findAppUserByEmail(newUser.getEmail());
         if (existingUser.isEmpty()) {
-            newUser.setPassword(this.passwordEncoder.encode(password));
+            newUser.setPassword(this.passwordEncoder.encode(newUser.getPassword()));
             return userRepo.save(newUser);
         }
         else throw new UserExistsException("User with email " + newUser.getEmail() + " exists");
@@ -44,6 +44,21 @@ public class AppUserService {
 
     public AppUser getAppUserById(Long id) {
         return userRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User with following id: " + id + " was not found"));
+    }
+
+    public AppUser loginAppUser(String email, String password) {
+        Optional<AppUser> existingUser = userRepo.findAppUserByEmail(email);
+        if (existingUser.isEmpty()) {
+            throw new UserExistsException("User with email " + email + " does not exists");
+        }
+        else {
+            if (this.passwordEncoder.matches(password, existingUser.get().getPassword())) {
+                return existingUser.get();
+            }
+            else {
+                throw new PasswordException("Password is not correct");
+            }
+        }
     }
 
     public AppUser updateUser(AppUser appUser) {

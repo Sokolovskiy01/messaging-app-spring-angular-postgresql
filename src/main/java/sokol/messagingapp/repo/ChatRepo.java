@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ChatRepo extends JpaRepository<Chat, Long> {
 
-    List<Chat> findChatsById(List<Long> chatIds);
-    void deleteChatById(Long id);
+    /*List<Chat> findChatsById(List<Long> chatIds);
+    void deleteChatById(Long id);*/
 }
