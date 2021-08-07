@@ -33,6 +33,9 @@ public class AppUser implements Serializable {
     @OneToMany(mappedBy = "appUser")
     private List<UsersChats> userChats;
 
+    @OneToOne(mappedBy = "sender_id")
+    private Message useMessage;
+
     public AppUser() {}
 
     public AppUser(String name, LocalDate dateOfBirth, String gender, String imageUrl, String comment, String email, String password, UserStatus userStatus, String banMessage, LocalDateTime lastLogin) {

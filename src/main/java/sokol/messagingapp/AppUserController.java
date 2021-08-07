@@ -47,7 +47,7 @@ public class AppUserController {
     }
 
     @PostMapping("/login")
-    public HttpEntity<Object> loginAppUser(@RequestBody Map<String, Object> loginObject) {
+    public ResponseEntity<Object> loginAppUser(@RequestBody Map<String, Object> loginObject) {
         String email = (String) loginObject.get("email");
         String password = (String) loginObject.get("password");
         try {
@@ -57,6 +57,24 @@ public class AppUserController {
         }
         catch (UserExistsException | PasswordException exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
+        // TODO try-catch
+        AppUser updatedAppUser = appUserService.updateUser(appUser);
+        return new ResponseEntity<>(updatedAppUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{userid}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable("userid") Long id) {
+        try {
+            appUserService.deleteAppUser(id);
+            return new ResponseEntity<>("User with id: " + id + " was permanently deleted", HttpStatus.OK);
+        }
+        catch (Exception ex) {
+            return new ResponseEntity<>("Unable to delete user with id: " + id, HttpStatus.NOT_MODIFIED);
         }
 
     }
