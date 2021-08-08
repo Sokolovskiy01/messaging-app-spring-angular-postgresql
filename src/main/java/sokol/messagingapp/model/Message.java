@@ -27,8 +27,6 @@ public class Message implements Serializable {
     @Column(length = 2048, nullable = false)
     private String messageContent;
     private LocalDateTime sentDate;
-        this.sentDate = sentDate;
-    }
 
     public Long getId() { return id; }
 
@@ -44,6 +42,8 @@ public class Message implements Serializable {
         this.chat_id = chat_id;
         this.sender_id = sender_id;
         this.messageContent = messageContent;
+        this.sentDate = sentDate;
+    }
 
     public String getMessageContent() { return messageContent; }
     public void setMessageContent(String messageContent) { this.messageContent = messageContent; }

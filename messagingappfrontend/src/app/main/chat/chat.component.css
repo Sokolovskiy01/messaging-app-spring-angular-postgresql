@@ -1,0 +1,158 @@
+.chat-component-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+.chat-list-container {
+    width: 330px;
+    height: 100%;
+    background-color: var(--app-background-secondary);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-list-serachfield-container {
+    width: 100%;
+    height: 60px;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.searchfield-container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.searchfield-container > i {
+    position: absolute;
+    left: 12px;
+    height: 19px;
+}
+
+.searchfield-container > .search-input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--blocks-border-color);
+    outline: none;
+    font-size: 12pt;
+    color: var(--font-color-primary);
+}
+
+.no-chat-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-chat-message {
+    color: var(--font-color-secondary);
+}
+
+.chat-list-block {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding: 10px 24px;
+}
+
+.category-container {
+    width: 100%;
+    position: relative;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+p.category-name {
+    color: var(--font-color-tertiary);
+    margin: 0;
+    width: 100%;
+    font-size: 9pt;
+}
+
+i.category-add-button {
+    cursor: pointer;
+    transition: var(--interface-transition);
+    height: 16px;
+    font-size: 10pt;
+}
+
+i.category-add-button:hover {
+    color: var(--notification-color);
+}
+
+.chat-list {
+    padding: 0;
+    list-style: none;
+}
+
+.chat-element {
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: var(--interface-transition);
+    border-radius: 7px;
+}
+
+.chat-element:hover {
+    background-color: var(--app-background-primary);
+}
+
+.chat-element-selected {
+    background-color: var(--app-background-primary);
+}
+
+.user-rounded-container {
+    flex-shrink: 0;
+    overflow: hidden;
+    padding: 0 8px;
+}
+
+.round-container {
+    width: 28px;
+    height: 28px;
+    background-color: #d35074;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.round-container > span {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.round-container > img {
+    width: 100%;
+    height: 100%;
+}
+
+.user-name-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.user-name {
+    width: 100%;
+    font-size: 11pt;
+    margin: 0;
+    color: var(--font-color-secondary);
+}
+
+.chat-element:hover  .user-name {
+    color: var(--font-color-primary);
+}

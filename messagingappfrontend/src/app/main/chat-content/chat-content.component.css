@@ -1,0 +1,67 @@
+.chat-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-info-container {
+    width: 400px;
+    border-left: 1px solid var(--blocks-border-color);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-title-container, .chat-info-title-container {
+    height: 75px;
+    border-bottom: 1px solid var(--blocks-border-color);
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.chat-messages-container {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.message-create-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 8px 12px;
+    flex-shrink: 0;
+}
+
+.message-create {
+    padding: 8px;
+    border-radius: 7px;
+    background-color: var(--app-background-primary);
+    border-color: var(--blocks-border-color);
+    border-width: 1px 1px 2px 1px;
+    border-style: solid;
+    display: flex;
+    align-items: center;
+}
+
+.message-value {
+    width: 100%;
+    height: fit-content;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.icon-send-button {
+    cursor: pointer;
+    transition: var(--interface-transition);
+}
+
+.icon-send-button:hover {
+    color: var(--notification-color);
+}
+
+.chat-info {
+    height: 100%;
+    width: 100%;
+}

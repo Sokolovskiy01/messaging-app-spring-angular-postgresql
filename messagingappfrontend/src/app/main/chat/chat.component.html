@@ -1,0 +1,50 @@
+<div class="chat-component-container">
+    <div class="chat-list-container">
+
+        <div class="chat-list-serachfield-container">
+            <div class="searchfield-container">
+                <i class="fi-br-search"></i>
+                <input type="text" class="search-input" placeholder="Search for chats..." />
+            </div>
+        </div>
+
+        <div class="chat-list-block">
+
+            <div class="category-container">
+                <p class="category-name" >DIRECT MESSAGES</p>
+                <i class="fi-br-plus category-add-button" [routerLink]="['/search']"></i>
+            </div>
+            
+            <ul class="chat-list">
+                <li class="chat-element" [routerLink]="['/chats/messages/Dmytro']" routerLinkActive="chat-element-selected">
+                    <div class="user-rounded-container">
+                        <div class="round-container" style="background-color: #ddf6d9;">
+                            <span style="color: #44b731;">DS</span>
+                        </div>
+                    </div>
+                    <div class="user-name-container">
+                        <p class="user-name">Dmytro Sokolovskyi</p>
+                    </div>
+                </li>
+                <li class="chat-element" [routerLink]="['/chats/messages/Kowalski']" routerLinkActive="chat-element-selected">
+                    <div class="user-rounded-container" >
+                        <div class="round-container">
+                            <img src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png" >
+                        </div>
+                    </div>
+                    <div class="user-name">
+                        <p class="user-name">Jan Kowalski</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="no-chat-container" *ngIf="this.noChildRoute">
+        <h3 sty class="no-chat-message">Select chat to start messaging</h3>
+    </div>
+
+    <router-outlet></router-outlet>
+
+</div>
