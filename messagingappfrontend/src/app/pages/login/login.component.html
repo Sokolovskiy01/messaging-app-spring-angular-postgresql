@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="login-component-container">
+
+    <div class="login-top-container">
+        <div class="title-container">
+            <h1 class="app-title">Messaging App</h1>
+        </div>
+        <div class="top-links">
+            <a [routerLink]="['/login']" routerLinkActive="link-disabled">Login</a>
+            <span>|</span>
+            <a [routerLink]="['/register']" routerLinkActive="link-disabled">Register</a>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-block">
+            <h2 style="width: 100%; text-align: center;">Login to account</h2>
+            <p style="text-align: center; font-size: 11pt;">Don't have an account? <a [routerLink]="['/register']">Create</a> a new one.</p>
+
+            <form>
+
+                <div class="row-input-label" >
+                    <span class="row-label">Email*</span>
+                    <input class="row-input" [ngClass]="{'error-input': this.loginCredentials.email.err}" type="email" placeholder="username@domain.com" [(ngModel)]="this.loginCredentials.email.value" name="email" (input)="this.clearEmailErrors()" />
+                    <span class="error-input-label" *ngIf="this.loginCredentials.email.err" >{{this.loginCredentials.email.errMessage}}</span>
+                </div>
+    
+                <div class="row-input-label" >
+                    <span class="row-label">Password*</span>
+                    <input class="row-input" [ngClass]="{'error-input': this.loginCredentials.password.err}" type="password" minlength="8" placeholder="Min. 8 characters" [(ngModel)]="this.loginCredentials.password.value" name="password" (input)="this.clearPasswordErrors()" />
+                    <span class="error-input-label" *ngIf="this.loginCredentials.password.err" >{{this.loginCredentials.password.errMessage}}</span>
+                </div>
+
+                <p *ngIf="this.loginFail" style="text-align: center; font-size: 10pt; color: var(--error-color);">{{this.loginFailMessage}}</p>
+
+                <div class="row-button">
+                    <button class="submit-button" type="submit" (click)="this.onLoginClick()" >Login</button>
+                </div>
+
+            </form>
+            
+        </div>
+    </div>
+
+</div>

@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "app_users")
 public class AppUser implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
@@ -16,7 +17,9 @@ public class AppUser implements Serializable {
     private String name; // stands for name and surname or custom nickname
     private LocalDate dateOfBirth;
     private String gender;
+    @Column(length = 1024)
     private String imageUrl;
+    @Column(length = 1024)
     private String comment;
 
      /* Login credentials */
@@ -33,8 +36,8 @@ public class AppUser implements Serializable {
     @OneToMany(mappedBy = "appUser")
     private List<UsersChats> userChats;
 
-    @OneToOne(mappedBy = "sender_id")
-    private Message useMessage;
+    //@OneToOne(mappedBy = "sender_id")
+    //private Message userMessage;
 
     public AppUser() {}
 

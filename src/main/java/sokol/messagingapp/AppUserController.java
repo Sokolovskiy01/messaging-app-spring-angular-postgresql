@@ -40,7 +40,7 @@ public class AppUserController {
         return new ResponseEntity<>(requestUser, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/register")
     public ResponseEntity<AppUser> createAppUser(@RequestBody AppUser appUser) {
         AppUser newAppUser = appUserService.createUser(appUser);
         return new ResponseEntity<>(newAppUser, HttpStatus.CREATED);
@@ -62,7 +62,7 @@ public class AppUserController {
 
     @PutMapping("/update")
     public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
-        // TODO try-catch
+        // TODO try-catch as in /login
         AppUser updatedAppUser = appUserService.updateUser(appUser);
         return new ResponseEntity<>(updatedAppUser, HttpStatus.OK);
     }

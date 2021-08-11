@@ -12,10 +12,12 @@
     --notification-color: #2f87ff;
     --highlight-color: #f8941a;
     --font-color-primary: #1d1d1d;
-    --font-color-secondary: #787878;
+    --font-color-secondary: #626262;
     --font-color-tertiary: #aaaaaa;
+    --link-color: #256fb4;
     --blocks-outline-color: #e8e8e8;
     --blocks-border-color: #e9e9e9;
+    --error-color: #f64848;
     --interface-transition: 0.3s all ease-out;
     --scrollbar-track-color: #ededed;
     --scrollbar-thumb-color: #cccccc;
@@ -44,6 +46,16 @@ textarea, input {
 
 i {
     color: var(--icon-color);
+}
+
+a {
+    transition: var(--interface-transition);
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--highlight-color);
 }
 
 app-chat-content {

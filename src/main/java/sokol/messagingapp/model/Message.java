@@ -1,11 +1,8 @@
 package sokol.messagingapp.model;
 
-import org.hibernate.annotations.Check;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table (name = "messages")
