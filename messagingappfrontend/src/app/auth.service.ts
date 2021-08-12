@@ -17,10 +17,10 @@ export class AuthService {
   }
 
   loginUser(email: string, password: string) {
-    this.conroller.userLogin(email, password).subscribe((res: HttpResponse<AppUser>) => {
-      this.currentUser = res.body;
+    this.conroller.userLogin(email, password).subscribe((res: AppUser) => {
+      this.currentUser = res;
       this.isUserLoggedIn = true;
-      console.log(res.body, this.currentUser);
+      console.log(res, this.currentUser);
     }, (err: HttpErrorResponse) => console.error(err.error) );
   }
 

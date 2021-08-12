@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AppUser } from './model/models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,6 @@ export class ControllerService {
   backendUrl = "localhost:8080";
 
   constructor(private http: HttpClient) { }
-
 
   get(uri: string) {
     return this.http.get(this.backendUrl + uri, { observe: 'response' });
@@ -28,7 +29,7 @@ export class ControllerService {
   }
 
   userLogin(email: string, password: string) {
-    return this.post("/login", { email, password });
+    return this.http.post<AppUser>(this.backendUrl + '/users/login', { email, password });
   }
 
   userLogout(userId: number) {

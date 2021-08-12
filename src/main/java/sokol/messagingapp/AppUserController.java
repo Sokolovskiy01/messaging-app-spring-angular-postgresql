@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/users")
 public class AppUserController {
@@ -25,13 +26,13 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
-    /*@GetMapping("/test")
+    @GetMapping("/test")
     public ResponseEntity<String> testFunc() {
         AppUser appUser = new AppUser("Dmytro Sokolvskyi", LocalDate.of(2001,9, 19), "Male", null,
                 "I feel like a god", "sokolovskiy01@gmail.com","Sokol", UserStatus.Active,null, LocalDateTime.now());
         appUserService.createUser(appUser);
         return new ResponseEntity<>("Hello world", HttpStatus.OK);
-    }*/
+    }
 
     @GetMapping("/find/{userid}")
     public ResponseEntity<AppUser> getAppUser(@PathVariable("userid") Long id) {

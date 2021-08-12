@@ -35,13 +35,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.conroller.get('/test').subscribe((res) => {
+      console.log(res);
+    }, err => console.error(err) );
   }
 
   onLoginClick() : void {
     if (this.checkFiedls()) {
-      this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: HttpResponse<AppUser>) => {
-        this.auth.currentUser = res.body;
+      this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: AppUser) => {
+        this.auth.currentUser = res;
         this.auth.isUserLoggedIn = true;
         this.router.navigate(['/chats']);
       }, (err: HttpErrorResponse) => {
