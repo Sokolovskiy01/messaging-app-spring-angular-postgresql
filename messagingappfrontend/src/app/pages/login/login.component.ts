@@ -35,9 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.conroller.get('/test').subscribe((res) => {
-      console.log(res);
-    }, err => console.error(err) );
+    
   }
 
   onLoginClick() : void {

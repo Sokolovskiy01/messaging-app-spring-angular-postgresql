@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class ControllerService {
 
-  backendUrl = "localhost:8080";
+  backendUrl = "http://localhost:8080";
 
   constructor(private http: HttpClient) { }
 
