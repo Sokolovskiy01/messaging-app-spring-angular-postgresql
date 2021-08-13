@@ -10,6 +10,7 @@ import sokol.messagingapp.model.AppUser;
 import sokol.messagingapp.model.UserStatus;
 import sokol.messagingapp.repo.AppUserRepo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,8 @@ public class AppUserService {
         }
         else {
             if (this.passwordEncoder.matches(password, existingUser.get().getPassword())) {
+                existingUser.get().setLastLogin(LocalDateTime.now());
+                userRepo.save(existingUser.get());
                 return existingUser.get();
             }
             else {

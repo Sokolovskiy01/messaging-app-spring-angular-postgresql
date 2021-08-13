@@ -13,9 +13,9 @@ import sokol.messagingapp.service.AppUserService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
 @RequestMapping("/users")
 public class AppUserController {
@@ -26,24 +26,27 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> testFunc() {
-        AppUser appUser = new AppUser("Dmytro Sokolvskyi", LocalDate.of(2001,9, 19), "Male", null,
-                "I feel like a god", "sokolovskiy01@gmail.com","Sokol", UserStatus.Active,null, LocalDateTime.now());
-        appUserService.createUser(appUser);
-        return new ResponseEntity<>("Hello world", HttpStatus.OK);
-    }
-
-    @GetMapping("/find/{userid}")
+    @GetMapping("/{userid}")
     public ResponseEntity<AppUser> getAppUser(@PathVariable("userid") Long id) {
         AppUser requestUser = appUserService.getAppUserById(id);
         requestUser.setPassword(null);
         return new ResponseEntity<>(requestUser, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<AppUser>> getAppUsers(@RequestParam String q) {
+        List<AppUser> searchUsers = appUserService.getUsersWithContainedQueryInName(q);
+        for (AppUser au: searchUsers) {
+            au.setPassword(null);
+        }
+        return new ResponseEntity<>(searchUsers, HttpStatus.OK);
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<AppUser> createAppUser(@RequestBody AppUser appUser) {
-        AppUser newAppUser = appUserService.createUser(appUser);
+    public ResponseEntity<Object> createAppUser(@RequestBody AppUser appUser) {
+        AppUser newAppUser;
+        try { newAppUser = appUserService.createUser(appUser); }
+        catch (UserExistsException uex) { return new ResponseEntity<>(uex.getMessage(), HttpStatus.NOT_ACCEPTABLE); }
         return new ResponseEntity<>(newAppUser, HttpStatus.CREATED);
     }
 

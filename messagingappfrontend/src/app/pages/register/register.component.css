@@ -1,0 +1,185 @@
+.register-component-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-image: url("/assets/login-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.top-container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+}
+
+.title-container{
+    padding: 16px 24px;
+    width: 100%;
+}
+
+.app-title {
+    color: var(--font-color-primary);
+    margin: 0;
+}
+
+.top-links {
+    padding: 16px 24px;
+}
+
+.top-links > a {
+    margin: 0 6px;
+}
+
+.link-disabled {
+    color: var(--font-color-tertiary);
+    pointer-events: none;
+}
+
+.register-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-block {
+    border: 1px solid var(--blocks-border-color);
+    border-radius: 12px;
+    padding: 10px;
+    background-color: var(--app-background-primary);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-blocks-container {
+    display: flex;
+    align-items: center;
+}
+
+.register-block-left {
+    height: 100%;
+    padding: 10px 24px;
+    width: 460px;
+}
+
+.register-block-right {
+    height: 100%;
+    padding: 10px 24px;
+    border-left: 1px solid var(--blocks-border-color);
+    width: 460px;
+}
+
+.row-input-label {
+    margin: 12px 0;
+    position: relative;
+}
+
+.register-bubmit-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px 0;
+}
+
+.row-label {
+    color: var(--font-color-primary);
+    margin-left: 6px;
+    font-size: 10pt;
+}
+
+.row-input {
+    width: 100%;
+    border: 1px solid var(--blocks-border-color);
+    border-radius: 7px;
+    font-size: 12pt;
+    color: var(--font-color-primary);
+    padding: 8px 12px;
+    outline: none;
+    transition: var(--interface-transition);
+    margin-top: 6px;
+}
+
+.row-input:focus {
+    color: var(--notification-color);
+}
+
+.error-input {
+    border: 1px solid var(--error-color);
+}
+
+.error-input-label {
+    color: var(--error-color);
+    font-size: 9pt;
+    margin-left: 6px;
+}
+
+.submit-button {
+    background-color: var(--notification-color);
+    border: none;
+    padding: 8px 16px;;
+    font-size: 12pt;
+    color: var(--app-background-primary);
+    height: 38px;
+    border-radius: 19px;
+    cursor: pointer;
+    transition: var(--interface-transition);
+    opacity: 0.7;
+    outline: none;
+}
+
+.submit-button:hover {
+    opacity: 1.0;
+}
+
+.loading-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--loaing-screen-background-color);
+    left: 0;
+    top: 0;
+    opacity: var(--loading-screen-opacity);
+}
+
+.loader {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+    stroke-linecap: round;
+    stroke-width: 4;
+    fill: none;
+}
+
+.internal-circle {
+  stroke: #fff;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+}
+
+.internal-circle {
+  stroke-dasharray: 187;
+  animation: internal 1s ease-in-out infinite;
+  opacity: 1;
+}
+
+@keyframes internal {
+    0% {
+        stroke-dashoffset: 187;
+    }
+    25% {
+        stroke-dashoffset: 80;
+    }
+    100% {
+        stroke-dashoffset: 187;
+        transform: rotate(360deg);
+    }
+}

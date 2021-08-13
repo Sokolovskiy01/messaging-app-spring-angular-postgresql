@@ -1,1 +1,101 @@
-<p>register works!</p>
+<div class="register-component-container">
+
+    <div class="top-container">
+        <div class="title-container">
+            <h1 class="app-title">Messaging App</h1>
+        </div>
+        <div class="top-links">
+            <a [routerLink]="['/login']" routerLinkActive="link-disabled">Login</a>
+            <span>|</span>
+            <a [routerLink]="['/register']" routerLinkActive="link-disabled">Register</a>
+        </div>
+    </div>
+
+    <div class="register-container">
+        <form style="display: flex;">
+            <div class="register-block">
+
+                <h2 style="width: 100%; text-align: center;">Create account</h2>
+
+                <div class="register-blocks-container">
+                    <div class="register-block-left">
+                        
+                        <h3 style="width: 100%; text-align: center;">Login credentials</h3>
+    
+                        <div class="row-input-label" >
+                            <span class="row-label">Email*</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.email.err}" type="email" placeholder="username@domain.com" [(ngModel)]="this.newUserBody.email.value" name="email" (input)="this.clearInputErrors(this.newUserBody.email)" />
+                            <span class="error-input-label" *ngIf="this.newUserBody.email.err" >{{this.newUserBody.email.errMessage}}</span>
+                        </div>
+            
+                        <div class="row-input-label" >
+                            <span class="row-label">Password*</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.password1.err}" type="password" minlength="8" placeholder="Min. 8 characters" [(ngModel)]="this.newUserBody.password1.value" name="password1" (input)="this.clearInputErrors(this.newUserBody.password1)" />
+                            <span class="error-input-label" *ngIf="this.newUserBody.password1.err" >{{this.newUserBody.password1.errMessage}}</span>
+                        </div>
+    
+                        <div class="row-input-label" >
+                            <span class="row-label">Repeat password*</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.password2.err}" type="password" minlength="8" placeholder="Min. 8 characters" [(ngModel)]="this.newUserBody.password2.value" name="password2" (input)="this.clearInputErrors(this.newUserBody.password2)" />
+                            <span class="error-input-label" *ngIf="this.newUserBody.password2.err" >{{this.newUserBody.password2.errMessage}}</span>
+                        </div>
+    
+                    </div>
+                    <div class="register-block-right">
+    
+                        <h3 style="width: 100%; text-align: center;">Personal data</h3>
+    
+                        <div class="row-input-label" >
+                            <span class="row-label">First name*</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.firstName.err}" type="text" minlength="2" [(ngModel)]="this.newUserBody.firstName.value" name="firstName" (input)="this.clearInputErrors(this.newUserBody.firstName)" />
+                            <span class="error-input-label" *ngIf="this.newUserBody.firstName.err" >{{this.newUserBody.firstName.errMessage}}</span>
+                        </div>
+    
+                        <div class="row-input-label" >
+                            <span class="row-label">Last name*</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.lastName.err}" type="text" minlength="2" [(ngModel)]="this.newUserBody.lastName.value" name="LastName" (input)="this.clearInputErrors(this.newUserBody.lastName)" />
+                            <span class="error-input-label" *ngIf="this.newUserBody.lastName.err" >{{this.newUserBody.lastName.errMessage}}</span>
+                        </div>
+
+                        <div class="row-input-label" >
+                            <span class="row-label">Gender*</span>
+                            <select class="row-input" [ngClass]="{'error-input': this.newUserBody.gender.err}" [(ngModel)]="this.newUserBody.gender.value" name="gender" (input)="this.clearInputErrors(this.newUserBody.gender)" >
+                                <option value="Male" >Male</option>
+                                <option value="Female" >Female</option>
+                            </select>
+                            <span class="error-input-label" *ngIf="this.newUserBody.gender.err" >{{this.newUserBody.gender.errMessage}}</span>
+                        </div>
+    
+                        <!--
+                        <div class="row-input-label" >
+                            <span class="row-label">Personal comment(will be displayed in your profile)</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.LastName.err}" type="text" minlength="2" [(ngModel)]="this.newUserBody.LastName.value" name="LastName" (input)="this.clearInputErrors(this.newUserBody.LastName)" />
+                            <span class="error-input-label" *ngIf="this.newUserBody.LastName.err" >{{this.newUserBody.LastName.errMessage}}</span>
+                        </div> -->
+    
+                        <div class="row-input-label" >
+                            <span class="row-label">Date of Birth*</span>
+                            <input class="row-input" [ngClass]="{'error-input': this.newUserBody.dateOfBirth.err}" type="date" [(ngModel)]="this.newUserBody.dateOfBirth.value" name="dateOfBirth"  />
+                            <span class="error-input-label" *ngIf="this.newUserBody.dateOfBirth.err" >{{this.newUserBody.dateOfBirth.errMessage}}</span>
+                        </div>
+    
+                        <!-- (input)="this.clearInputErrors(this.newUserBody.dateOfBirth)" -->
+    
+                    </div>
+                </div>
+                <div class="register-bubmit-container">
+                    <p *ngIf="this.regFail" style="text-align: center; font-size: 10pt; color: var(--error-color);">{{this.regFailMessage}}</p>
+                    <button class="submit-button" type="submit" (click)="this.onCreateAccountClick()" >Create new account</button>
+                </div>
+
+                <div class="loading-container" *ngIf="this.loading">
+                    <svg class="loader" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="internal-circle" cx="60" cy="60" r="30"></circle>
+                    </svg>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>

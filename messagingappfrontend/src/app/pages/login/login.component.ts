@@ -38,27 +38,13 @@ export class LoginComponent implements OnInit {
     
   }
 
-  onLoginClick() : void {
-    if (this.checkFiedls()) {
-      this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: AppUser) => {
-        this.auth.currentUser = res;
-        this.auth.isUserLoggedIn = true;
-        this.router.navigate(['/chats']);
-      }, (err: HttpErrorResponse) => {
-        this.loginCredentials.password.err = true;
-        this.loginCredentials.email.err = true;
-        this.loginFail = true;
-        this.loginFailMessage = "Email or password incorrect";
-      });
-    }
-  }
-
-  clearEmailErrors(): void {
-    this.loginCredentials.email.err = false;
-  }
-
-  clearPasswordErrors(): void {
-    this.loginCredentials.password.err = false;
+  /**
+   * Clears error red outline of input
+   * @param field must be 1-st level field of newUserBody
+   */
+   clearInputErrors(field): void {
+    field.err = false;
+    field.errMessage = ""
   }
 
   checkFiedls() : boolean {
@@ -77,6 +63,21 @@ export class LoginComponent implements OnInit {
       isErr = true;
     }
     return !isErr;
+  }
+
+  onLoginClick() : void {
+    if (this.checkFiedls()) {
+      this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: HttpResponse<any>) => {
+        this.auth.currentUser = res.body;
+        this.auth.isUserLoggedIn = true;
+        this.router.navigate(['/chats']);
+      }, (err: HttpErrorResponse) => {
+        this.loginCredentials.password.err = true;
+        this.loginCredentials.email.err = true;
+        this.loginFail = true;
+        this.loginFailMessage = err.error;
+      });
+    }
   }
 
 }

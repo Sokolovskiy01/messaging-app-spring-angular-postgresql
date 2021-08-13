@@ -29,7 +29,11 @@ export class ControllerService {
   }
 
   userLogin(email: string, password: string) {
-    return this.http.post<AppUser>(this.backendUrl + '/users/login', { email, password });
+    return this.http.post(this.backendUrl + '/users/login', { email: email, password: password });
+  }
+
+  userCreate(newAppUser: AppUser) {
+    return this.post(this.backendUrl + '/users/register', newAppUser);
   }
 
   userLogout(userId: number) {
@@ -44,7 +48,7 @@ export class ControllerService {
   }
 
   validateEmail(email: string) : boolean {
-    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) return true;
+    if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) return true;
     else return false;
   }
 

@@ -22,6 +22,8 @@
     --scrollbar-track-color: #ededed;
     --scrollbar-thumb-color: #cccccc;
     --scrollbar-thumb-hover-color: #aaaaaa;
+    --loaing-screen-background-color: #cccccc;
+    --loading-screen-opacity: 0.65;
 }
 
 *, *:before, *:after {

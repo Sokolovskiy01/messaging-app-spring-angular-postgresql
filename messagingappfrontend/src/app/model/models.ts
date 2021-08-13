@@ -1,11 +1,12 @@
 export interface AppUser {
-    id: number,
+    id: number | undefined,
     name: string,
     dateOfBirth: Date,
     gender: string,
     imageUrl: string,
     comment: string,
     email: string,
+    password: string | null | undefined,
     userStatus: UserStatus,
     banMessage: string,
     lastLogin: Date

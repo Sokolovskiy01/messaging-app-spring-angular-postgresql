@@ -54,6 +54,21 @@ public class AppUser implements Serializable {
         this.lastLogin = lastLogin;
     }
 
+    @Override
+    public String toString() {
+        return "User id: " + this.id + "\n" +
+                "Name: " + this.name + "\n" +
+                "Date of birth: " + this.dateOfBirth + "\n" +
+                "Gender: " + this.gender + "\n" +
+                "ImageUser: " + this.imageUrl + "\n" +
+                "Comment: " + this.comment + "\n" +
+                "Email: " + this.email + "\n" +
+                "Password: " + this.password + "\n" +
+                "UserStatus: " + this.userStatus + "\n" +
+                "BanMessage: " + this.banMessage + "\n" +
+                "LastLogin: " + this.lastLogin;
+    }
+
     /* Getters and setters */
 
     public Long getId() { return id; }

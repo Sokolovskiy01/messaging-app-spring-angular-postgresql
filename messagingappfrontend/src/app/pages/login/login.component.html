@@ -1,6 +1,6 @@
 <div class="login-component-container">
 
-    <div class="login-top-container">
+    <div class="top-container">
         <div class="title-container">
             <h1 class="app-title">Messaging App</h1>
         </div>
@@ -20,13 +20,13 @@
 
                 <div class="row-input-label" >
                     <span class="row-label">Email*</span>
-                    <input class="row-input" [ngClass]="{'error-input': this.loginCredentials.email.err}" type="email" placeholder="username@domain.com" [(ngModel)]="this.loginCredentials.email.value" name="email" (input)="this.clearEmailErrors()" />
+                    <input class="row-input" [ngClass]="{'error-input': this.loginCredentials.email.err}" type="email" placeholder="username@domain.com" [(ngModel)]="this.loginCredentials.email.value" name="email" (input)="this.clearInputErrors(this.loginCredentials.email)" />
                     <span class="error-input-label" *ngIf="this.loginCredentials.email.err" >{{this.loginCredentials.email.errMessage}}</span>
                 </div>
     
                 <div class="row-input-label" >
                     <span class="row-label">Password*</span>
-                    <input class="row-input" [ngClass]="{'error-input': this.loginCredentials.password.err}" type="password" minlength="8" placeholder="Min. 8 characters" [(ngModel)]="this.loginCredentials.password.value" name="password" (input)="this.clearPasswordErrors()" />
+                    <input class="row-input" [ngClass]="{'error-input': this.loginCredentials.password.err}" type="password" placeholder="••••••••" [(ngModel)]="this.loginCredentials.password.value" name="password" (input)="this.clearInputErrors(this.loginCredentials.password)" />
                     <span class="error-input-label" *ngIf="this.loginCredentials.password.err" >{{this.loginCredentials.password.errMessage}}</span>
                 </div>
 
@@ -42,3 +42,4 @@
     </div>
 
 </div>
+
