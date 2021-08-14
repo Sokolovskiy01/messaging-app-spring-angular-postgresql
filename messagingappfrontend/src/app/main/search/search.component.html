@@ -1,1 +1,34 @@
-<p>search works!</p>
+<div class="search-component-container">
+
+    <div class="search-column">
+        <div class="search-top-container">
+            <form>
+                <div class="searchfield-container">
+                    <i class="fi-br-search"></i>
+                    <input type="text" class="search-input" placeholder="Search users..."  />
+                </div>
+            </form>
+        </div>
+    
+        <div class="search-results-container">
+    
+            <div class="user-container" *ngFor="let user of this.usersList" >
+                <div class="user-rounded-container">
+                    <div class="round-container" [style.background-color]="user.colors.background">
+                        <span *ngIf="user.imageUrl == ''" [style.color]="user.colors.text">{{this.getUserInitials(user.name)}}</span>
+                        <img *ngIf="user.imageUrl != ''" [src]="user.imageUrl" >
+                    </div>
+                </div>
+                <div class="user-info-container">
+                    <p class="user-name">{{user.name}}</p>
+                    <p class="user-description">Last online: {{user.lastLogin | date: 'dd.MM.yyyy'}}</p>
+                </div>
+                <div class="manage-buttons">
+                    <button class="manage-button-gray" >Start chat</button>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+</div>

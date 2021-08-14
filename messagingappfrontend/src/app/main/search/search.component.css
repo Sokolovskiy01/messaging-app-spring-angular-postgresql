@@ -1,0 +1,138 @@
+.search-component-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--blocks-border-color);
+}
+
+.search-column {
+    width: 100%;
+    max-width: 840px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-top-container {
+    padding: 10px 24px;
+    position: relative;
+}
+
+.searchfield-container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.searchfield-container > i {
+    position: absolute;
+    left: 12px;
+    height: 19px;
+}
+
+.searchfield-container > .search-input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    border-radius: 8px;
+    border: 1px solid var(--blocks-border-color);
+    outline: none;
+    font-size: 12pt;
+    color: var(--font-color-primary);
+}
+
+.search-results-container {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px 24px;
+    position: relative;
+}
+
+.search-results-container > div:nth-child(2n) {
+    background-color: var(--app-background-secondary);
+}
+
+.user-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 6px 0;
+}
+
+.user-rounded-container {
+    flex-shrink: 0;
+    overflow: hidden;
+    padding: 0 8px;
+}
+
+.round-container {
+    width: 50px;
+    height: 50px;
+    background-color: #d35074;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.round-container > span {
+    font-size: 16pt;
+}
+
+.round-container > img {
+    width: 100%;
+    height: 100%;
+}
+
+.user-info-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;
+}
+
+.user-name {
+    width: 100%;
+    font-size: 14pt;
+    margin: 0;
+    color: var(--font-color-secondary);
+}
+
+.user-description {
+    width: 100%;
+    font-size: 11pt;
+    margin: 0;
+    color: var(--font-color-tertiary);
+}
+
+.manage-buttons {
+    height: 100%;
+    padding: 0 8px;
+}
+
+.manage-button-gray {
+    white-space: nowrap;
+    height: 30px;
+    border-radius: 15px;
+    padding: 5px 16px;
+    vertical-align: middle;
+    text-align: center;
+    border-style: none;
+    background-color: var(--notification-color);
+    color: var(--app-background-primary);
+    font-size: 11pt;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: var(--interface-transition);
+}
+
+.manage-button-gray:hover {
+    opacity: 1.0;
+}

@@ -12,6 +12,7 @@ public interface AppUserRepo extends JpaRepository<AppUser, Long> {
 
     Optional<AppUser> findAppUserByEmail(String email);
     List<AppUser> findAllByNameContains(String substring);
+    List<AppUser> findAllByNameContainsAndIdIsNot(String substring, long id);
     void deleteAppUserById(Long Id);
 
 }
