@@ -29,7 +29,7 @@ export class ControllerService {
   }
 
   userLogin(email: string, password: string) {
-    return this.http.post(this.backendUrl + '/users/login', { email: email, password: password });
+    return this.http.post(this.backendUrl + '/users/login', { email: email, password: password }, { observe: 'response' });
   }
 
   userCreate(newAppUser: AppUser) {

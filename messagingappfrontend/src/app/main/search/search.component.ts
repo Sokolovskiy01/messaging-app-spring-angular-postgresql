@@ -1,4 +1,8 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService, CurrentAppUser } from 'src/app/auth.service';
+import { ControllerService } from 'src/app/controller.service';
 import { AppUser, UserStatus } from 'src/app/model/models';
 
 @Component({
@@ -9,7 +13,7 @@ import { AppUser, UserStatus } from 'src/app/model/models';
 export class SearchComponent implements OnInit {
 
   searchQuery: string = "";
-  usersList = [
+  usersList = []; /*[
     {
       id: 2,
       name: "Jan Kowalski",
@@ -38,7 +42,7 @@ export class SearchComponent implements OnInit {
       lastLogin: new Date("2021-08-13T15:47:24.814488"),
       colors: { background: '#ddf6d9', text: '#43c52d' }
     }
-  ];
+  ]*/
 
   randomCollorArray = [
     { background: '#d8edff', text: '#3797ec' },
@@ -49,11 +53,12 @@ export class SearchComponent implements OnInit {
 
   loading: boolean = false;
 
-  constructor() { }
+  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, public currentUser: CurrentAppUser) {
+    console.log(currentUser.isUserLoggedIn);
+  }
 
   ngOnInit(): void {
-    console.log(this.getUserInitials("dmytro"));
-    console.log(this.getRandomColor());
+    
   }
 
   getRandomColor() {
@@ -67,7 +72,21 @@ export class SearchComponent implements OnInit {
   }
 
   getUsersByQuery(): void {
-    
+    if (this.searchQuery === "") {
+      this.usersList = [];
+      return;
+    }
+    else {
+      this.loading = true;
+      this.usersList = [];
+      this.conroller.get("/users/search?q=" + this.searchQuery + "&uid=" + this.currentUser.userObject.id).subscribe((res: HttpResponse<AppUser[]>) => {
+        res.body.forEach((user: any) => {
+          user.colors = this.getRandomColor();
+        });
+        this.usersList = res.body
+        this.loading = false;
+      }, (err: HttpErrorResponse) => console.error(err));
+    }
   }
 
 }

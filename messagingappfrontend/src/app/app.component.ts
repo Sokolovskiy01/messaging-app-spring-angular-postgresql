@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService, CurrentAppUser } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,6 @@ import { AuthService } from './auth.service';
 export class AppComponent {
   title = 'Messaging App';
 
-  constructor (public authService: AuthService) {}
+  constructor (public currentUser: CurrentAppUser) {}
 
 }

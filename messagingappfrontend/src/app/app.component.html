@@ -1,5 +1,5 @@
 <div class="app-container">
-  <div class="app-navigation" *ngIf="this.authService.isUserLoggedIn" >
+  <div class="app-navigation" *ngIf="this.currentUser.isUserLoggedIn" >
     <app-left-bar-navigation></app-left-bar-navigation>
   </div>
   <div class="app-content" >

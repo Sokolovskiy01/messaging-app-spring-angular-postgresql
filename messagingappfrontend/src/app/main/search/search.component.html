@@ -5,7 +5,7 @@
             <form>
                 <div class="searchfield-container">
                     <i class="fi-br-search"></i>
-                    <input type="text" class="search-input" placeholder="Search users..."  />
+                    <input type="text" class="search-input" placeholder="Search users..." [(ngModel)]="this.searchQuery" name="searchInput" (input)="this.getUsersByQuery()" />
                 </div>
             </form>
         </div>

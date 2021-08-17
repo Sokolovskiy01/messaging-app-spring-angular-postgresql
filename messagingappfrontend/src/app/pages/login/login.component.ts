@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
 import { AppUser } from 'src/app/model/models';
 
@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
   loginFail: boolean = false;
   loginFailMessage: string = "";
 
-  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router) {
-    if (this.auth.isUserLoggedIn) {
+  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, public currentUser:CurrentAppUser) {
+    if (this.currentUser.isUserLoggedIn) {
       this.router.navigate(['/chats']);
     }
   }
@@ -67,9 +67,11 @@ export class LoginComponent implements OnInit {
 
   onLoginClick() : void {
     if (this.checkFiedls()) {
-      this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: HttpResponse<any>) => {
-        this.auth.currentUser = res.body;
-        this.auth.isUserLoggedIn = true;
+      this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: HttpResponse<AppUser>) => {
+        console.log(res.body);
+        this.currentUser.userObject = res.body;
+        this.currentUser.isUserLoggedIn = true;
+        console.log(this.currentUser.userObject);
         this.router.navigate(['/chats']);
       }, (err: HttpErrorResponse) => {
         this.loginCredentials.password.err = true;

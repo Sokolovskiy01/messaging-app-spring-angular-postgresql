@@ -34,8 +34,8 @@ public class AppUserController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<AppUser>> getAppUsers(@RequestParam String q) {
-        List<AppUser> searchUsers = appUserService.getUsersWithContainedQueryInName(q);
+    public ResponseEntity<List<AppUser>> getAppUsers(@RequestParam String q, @RequestParam int uid) {
+        List<AppUser> searchUsers = appUserService.getUsersWithContainedQueryInName(q, uid);
         for (AppUser au: searchUsers) {
             au.setPassword(null);
         }

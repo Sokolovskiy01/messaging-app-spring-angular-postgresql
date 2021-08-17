@@ -39,8 +39,8 @@ public class AppUserService {
         return userRepo.findAll();
     }
 
-    public List<AppUser> getUsersWithContainedQueryInName(String query) {
-        return userRepo.findAllByNameContains(query);
+    public List<AppUser> getUsersWithContainedQueryInName(String query, int id) {
+        return userRepo.findAllByNameContainsIgnoreCaseAndIdIsNot(query, id);
     }
 
     public AppUser getAppUserById(Long id) {

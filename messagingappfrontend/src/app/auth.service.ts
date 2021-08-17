@@ -7,34 +7,45 @@ import { AppUser } from './model/models';
 @Injectable({
   providedIn: 'root'
 })
+export class CurrentAppUser {
+
+  isUserLoggedIn: boolean = false;
+  userObject: AppUser | null;
+
+  clearDataAfterLogout() {
+    this.userObject = null;
+    this.isUserLoggedIn = false;
+  }
+
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
-  currentUser: AppUser;
-  isUserLoggedIn: boolean = false;
-
-  constructor(private conroller: ControllerService, private router: Router) {
+  constructor(private conroller: ControllerService, private router: Router, private currentUser: CurrentAppUser) {
     // try to login
   }
 
   loginUser(email: string, password: string) {
     this.conroller.userLogin(email, password).subscribe((res: HttpResponse<AppUser>) => {
-      this.currentUser = res.body;
-      this.isUserLoggedIn = true;
+      this.currentUser.userObject = res.body;
+      this.currentUser.isUserLoggedIn = true;
       this.router.navigate(['/chats'])
       //console.log(res, this.currentUser);
     }, (err: HttpErrorResponse) => console.error(err.error) );
   }
 
   setUser(appUser: AppUser) {
-    this.currentUser = appUser;
-    this.isUserLoggedIn = true;
+    this.currentUser.userObject = appUser;
+    this.currentUser.isUserLoggedIn = true;
   }
 
   logoutUser() {
     //let userId = this.currentUser.id;
     //this.conroller.post('/logout', { userId }).subscribe((res: HttpResponse<any>) => {
-      this.currentUser = null;
-      this.isUserLoggedIn = false;
+      this.currentUser.clearDataAfterLogout();
       this.router.navigate(['/login']);
     //}, (err: HttpErrorResponse) => console.error(err.error) );
   }
