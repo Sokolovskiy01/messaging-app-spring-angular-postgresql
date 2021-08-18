@@ -14,33 +14,33 @@ public class Message implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="chat_id", referencedColumnName="id", nullable=false)
-    private Chat chat_id;
+    @JoinColumn(name="chat", referencedColumnName="id", nullable=false)
+    private Chat chat;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sender_id", referencedColumnName = "id")
-    private AppUser sender_id;
+    @JoinColumn(name = "sender", referencedColumnName = "id")
+    private AppUser sender;
 
     @Column(length = 2048, nullable = false)
     private String messageContent;
     private LocalDateTime sentDate;
 
-    public Long getId() { return id; }
-
-    public Chat getChat_id() { return chat_id; }
-    public void setChat_id(Chat chat_id) { this.chat_id = chat_id; }
-
-    public AppUser getSender_id() { return sender_id; }
-    public void setSender_id(AppUser sender_id) { this.sender_id = sender_id; }
-
     public Message() {}
 
-    public Message(Chat chat_id, AppUser sender_id, String messageContent, LocalDateTime sentDate) {
-        this.chat_id = chat_id;
-        this.sender_id = sender_id;
+    public Message(Chat chat, AppUser sender, String messageContent, LocalDateTime sentDate) {
+        this.chat = chat;
+        this.sender = sender;
         this.messageContent = messageContent;
         this.sentDate = sentDate;
     }
+
+    public Long getId() { return id; }
+
+    public Chat getChat() { return chat; }
+    public void setChat(Chat chat) { this.chat = chat; }
+
+    public AppUser getSender() { return sender; }
+    public void setSender(AppUser sender_id) { this.sender = sender_id; }
 
     public String getMessageContent() { return messageContent; }
     public void setMessageContent(String messageContent) { this.messageContent = messageContent; }

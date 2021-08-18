@@ -33,8 +33,11 @@ public class AppUser implements Serializable {
     private String banMessage; // reason of blocking user if he's banned
     private LocalDateTime lastLogin;
 
-    @OneToMany(mappedBy = "appUser")
-    private List<UsersChats> userChats;
+    @OneToMany(mappedBy = "user1")
+    private List<Chat> createdChats;
+
+    @OneToMany(mappedBy = "user2")
+    private List<Chat> invitedChats;
 
     //@OneToOne(mappedBy = "sender_id")
     //private Message userMessage;
@@ -52,21 +55,6 @@ public class AppUser implements Serializable {
         this.userStatus = userStatus;
         this.banMessage = banMessage;
         this.lastLogin = lastLogin;
-    }
-
-    @Override
-    public String toString() {
-        return "User id: " + this.id + "\n" +
-                "Name: " + this.name + "\n" +
-                "Date of birth: " + this.dateOfBirth + "\n" +
-                "Gender: " + this.gender + "\n" +
-                "ImageUser: " + this.imageUrl + "\n" +
-                "Comment: " + this.comment + "\n" +
-                "Email: " + this.email + "\n" +
-                "Password: " + this.password + "\n" +
-                "UserStatus: " + this.userStatus + "\n" +
-                "BanMessage: " + this.banMessage + "\n" +
-                "LastLogin: " + this.lastLogin;
     }
 
     /* Getters and setters */
@@ -103,7 +91,10 @@ public class AppUser implements Serializable {
     public LocalDateTime getLastLogin() { return lastLogin; }
     public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
 
-    public List<UsersChats> getUserChats() { return userChats; }
-    public void setUserChats(List<UsersChats> userChats) { this.userChats = userChats; }
+    public List<Chat> getCreatedChats() { return createdChats; }
+    public void setCreatedChats(List<Chat> createdChats) { this.createdChats = createdChats; }
+
+    public List<Chat> getInvitedChats() { return invitedChats; }
+    public void setInvitedChats(List<Chat> invitedChats) { this.invitedChats = invitedChats; }
 
 }
