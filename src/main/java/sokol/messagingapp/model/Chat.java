@@ -22,8 +22,8 @@ public class Chat implements Serializable {
     private boolean user1Seen;
     private boolean user2Seen;
 
-    @OneToMany(mappedBy = "chat")
-    private List<Message> messageList; // should be sorted by date and limited to 50. Increment on 30 on scrollUp
+    /*@OneToMany(mappedBy = "chat")
+    private List<Message> messageList;*/ // should be sorted by date and limited to 50. Increment on 30 on scrollUp
 
     public Chat() {}
 
@@ -42,8 +42,8 @@ public class Chat implements Serializable {
     public AppUser getUser2() { return user2; }
     public void setUser2(AppUser user2) { this.user2 = user2; }
 
-    public List<Message> getMessageList() { return messageList; }
-    public void setMessageList(List<Message> messageList) { this.messageList = messageList; }
+    /*public List<Message> getMessageList() { return messageList; }
+    public void setMessageList(List<Message> messageList) { this.messageList = messageList; }*/
 
     public boolean isUser1Seen() { return user1Seen; }
     public void setUser1Seen(boolean user1Seen) { this.user1Seen = user1Seen; }

@@ -21,10 +21,10 @@
                 </div>
                 <div class="user-info-container">
                     <p class="user-name">{{user.name}}</p>
-                    <p class="user-description">Last online: {{user.lastLogin | date: 'dd.MM.yyyy'}}</p>
+                    <p class="user-description">Last online: {{user.lastLogin | date: 'dd.MM.yyyy hh:mm'}}</p>
                 </div>
                 <div class="manage-buttons">
-                    <button class="manage-button-gray" >Start chat</button>
+                    <button class="manage-button-gray" (click)="this.onSendMessageClicked(user)" >Send message</button>
                 </div>
             </div>
     

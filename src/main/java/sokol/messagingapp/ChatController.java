@@ -49,9 +49,9 @@ public class ChatController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Chat> createChat(@RequestBody Map<String, Object> newChatObject) {
-        Long user1Id = (Long) newChatObject.get("user1Id");
-        Long user2Id = (Long) newChatObject.get("user2Id");
+    public ResponseEntity<Chat> createChat(@RequestBody Map<String, Object> obj) {
+        Long user1Id = ((Number) obj.get("user1Id")).longValue();
+        Long user2Id = ((Number) obj.get("user2Id")).longValue();
         AppUser user1 = appUserService.getAppUserById(user1Id);
         AppUser user2 = appUserService.getAppUserById(user2Id);
         Chat chat = chatService.createChat(user1, user2);
@@ -64,7 +64,7 @@ public class ChatController {
         Long chatId = (Long) messageObject.get("chatId");
         Long userId = (Long) messageObject.get("userId");
         String messageContent = (String) messageObject.get("message");
-        Message message = chatService.sendMessage(chatId, userId, messageContent);
+        /* Message message = */ chatService.sendMessage(chatId, userId, messageContent);
         return new ResponseEntity<>(chatService.getChatMessages(chatId), HttpStatus.OK);
     }
 

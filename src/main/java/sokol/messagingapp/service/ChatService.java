@@ -43,6 +43,11 @@ public class ChatService {
         else return messageRepo.findAllByChat(chat.get());
     }
 
+    /**
+     * @param user1 user who sent request to create chat
+     * @param user2 recipient of this request
+     * @return new or existing Chat instance
+     */
     public Chat createChat(AppUser user1, AppUser user2) {
         Optional<Chat> existingChat = chatRepo.findByUser1IdAndUser2Id(user1.getId(), user2.getId());
         if (existingChat.isEmpty()) {

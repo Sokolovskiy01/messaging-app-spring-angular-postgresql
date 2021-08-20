@@ -88,8 +88,8 @@ export class RegisterComponent implements OnInit {
   onCreateAccountClick(): void {
     if (this.loading) return;
     else {
-      this.loading = true;
       if (this.checkFiedls()) {
+        this.loading = true;
         let newAppUser: AppUser = {
           id: undefined,
           name: this.newUserBody.firstName.value + " " + this.newUserBody.lastName.value,

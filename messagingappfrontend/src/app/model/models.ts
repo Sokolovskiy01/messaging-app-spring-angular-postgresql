@@ -12,17 +12,19 @@ export interface AppUser {
     lastLogin: Date
 }
 
+export interface Chat {
+    id: number | undefined,
+    user1: AppUser,
+    user2: AppUser,
+    user1Seen: boolean,
+    user2Seen: boolean
+}
+
 export interface Message {
     sender: AppUser,
     messageContent: string,
     sent: Date
 }
-
-/*
-export interface Chat {
-
-}
-*/
 
 export enum UserStatus {
     Active, Limited, Banned

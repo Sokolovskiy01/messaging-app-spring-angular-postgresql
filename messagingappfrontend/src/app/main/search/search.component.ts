@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
-import { AppUser, UserStatus } from 'src/app/model/models';
+import { AppUser, Chat, UserStatus } from 'src/app/model/models';
 
 @Component({
   selector: 'app-search',
@@ -13,36 +13,7 @@ import { AppUser, UserStatus } from 'src/app/model/models';
 export class SearchComponent implements OnInit {
 
   searchQuery: string = "";
-  usersList = []; /*[
-    {
-      id: 2,
-      name: "Jan Kowalski",
-      dateOfBirth: new Date("2001-06-13"),
-      gender: "Male",
-      imageUrl: "",
-      comment: "",
-      email: "newuser@gmail.com",
-      password: null,
-      userStatus: UserStatus.Active,
-      banMessage: "",
-      lastLogin: new Date("2021-08-13T15:47:24.814488"),
-      colors: { background: '#d8edff', text: '#3797ec' }
-    },
-    {
-      id: 1,
-      name: "Dmytro Sokolovskyi",
-      dateOfBirth: new Date("2001-06-13"),
-      gender: "Male",
-      imageUrl: "",
-      comment: "",
-      email: "newuser@gmail.com",
-      password: null,
-      userStatus: UserStatus.Active,
-      banMessage: "",
-      lastLogin: new Date("2021-08-13T15:47:24.814488"),
-      colors: { background: '#ddf6d9', text: '#43c52d' }
-    }
-  ]*/
+  usersList = [];
 
   randomCollorArray = [
     { background: '#d8edff', text: '#3797ec' },
@@ -87,6 +58,16 @@ export class SearchComponent implements OnInit {
         this.loading = false;
       }, (err: HttpErrorResponse) => console.error(err));
     }
+  }
+
+  onSendMessageClicked(user: AppUser): void {
+    let sendBody = {
+      user1Id: this.currentUser.userObject.id,
+      user2Id: user.id
+    }
+    this.conroller.post('/chats/create', sendBody).subscribe((res: HttpResponse<Chat>) => {
+      this.router.navigate(['/chats/messages/' + res.body.id]);
+    }, (err: HttpErrorResponse) => console.error(err) );
   }
 
 }

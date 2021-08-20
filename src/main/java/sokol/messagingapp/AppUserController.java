@@ -29,7 +29,6 @@ public class AppUserController {
     @GetMapping("/{userid}")
     public ResponseEntity<AppUser> getAppUser(@PathVariable("userid") Long id) {
         AppUser requestUser = appUserService.getAppUserById(id);
-        requestUser.setPassword(null);
         return new ResponseEntity<>(requestUser, HttpStatus.OK);
     }
 

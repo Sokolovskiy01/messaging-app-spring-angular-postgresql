@@ -1,5 +1,8 @@
 package sokol.messagingapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -33,11 +36,11 @@ public class AppUser implements Serializable {
     private String banMessage; // reason of blocking user if he's banned
     private LocalDateTime lastLogin;
 
-    @OneToMany(mappedBy = "user1")
+    /*@OneToMany(mappedBy = "user1")
     private List<Chat> createdChats;
 
     @OneToMany(mappedBy = "user2")
-    private List<Chat> invitedChats;
+    private List<Chat> invitedChats;*/
 
     //@OneToOne(mappedBy = "sender_id")
     //private Message userMessage;
@@ -79,6 +82,7 @@ public class AppUser implements Serializable {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
+    @JsonIgnore
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
@@ -91,10 +95,10 @@ public class AppUser implements Serializable {
     public LocalDateTime getLastLogin() { return lastLogin; }
     public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
 
-    public List<Chat> getCreatedChats() { return createdChats; }
+    /*public List<Chat> getCreatedChats() { return createdChats; }
     public void setCreatedChats(List<Chat> createdChats) { this.createdChats = createdChats; }
 
     public List<Chat> getInvitedChats() { return invitedChats; }
-    public void setInvitedChats(List<Chat> invitedChats) { this.invitedChats = invitedChats; }
+    public void setInvitedChats(List<Chat> invitedChats) { this.invitedChats = invitedChats; }*/
 
 }
