@@ -43,6 +43,18 @@ public class ChatService {
         else return messageRepo.findAllByChat(chat.get());
     }
 
+    public List<Message> getChatMessagesAsAppUser(Long chatId, Long appUserId) {
+        Optional<Chat> chat = chatRepo.findById(chatId);
+        Optional<AppUser> appUser = appUserRepo.findById(appUserId);
+        if (chat.isEmpty() || appUser.isEmpty()) throw new RuntimeException("Chat or AppUser does not exist");
+        else {
+            if (appUserId.equals(chat.get().getUser1().getId())) chat.get().setUser1Seen(true);
+            else if (appUserId.equals(chat.get().getUser2().getId())) chat.get().setUser2Seen(true);
+            chatRepo.save(chat.get());
+            return messageRepo.findAllByChat(chat.get());
+        }
+    }
+
     /**
      * @param user1 user who sent request to create chat
      * @param user2 recipient of this request
@@ -61,6 +73,15 @@ public class ChatService {
         Chat chat = chatRepo.getById(chatId);
         AppUser user = appUserRepo.getById(userId);
         Message message = new Message(chat, user, messageContent, LocalDateTime.now());
+        if (userId.equals(chat.getUser1().getId())) {
+            chat.setUser1Seen(true);
+            chat.setUser2Seen(false);
+        }
+        else {
+            chat.setUser1Seen(false);
+            chat.setUser2Seen(true);
+        }
+        chatRepo.save(chat);
         return messageRepo.save(message);
     }
 

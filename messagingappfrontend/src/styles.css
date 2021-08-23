@@ -24,6 +24,7 @@
     --scrollbar-thumb-hover-color: #aaaaaa;
     --loaing-screen-background-color: #cccccc;
     --loading-screen-opacity: 0.65;
+    --controls-box-shadow: 0px 2px 4px #afafaf  ; 
 }
 
 *, *:before, *:after {

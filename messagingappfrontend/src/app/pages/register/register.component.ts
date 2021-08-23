@@ -103,6 +103,7 @@ export class RegisterComponent implements OnInit {
           banMessage: "",
           lastLogin: new Date()
         }
+        console.log(newAppUser);
         this.conroller.post('/users/register', newAppUser).subscribe((res: HttpResponse<AppUser>) => {
           this.auth.setUser(res.body);
           this.router.navigate(['/chats']);

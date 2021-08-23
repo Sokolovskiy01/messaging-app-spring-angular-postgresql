@@ -21,9 +21,11 @@ export interface Chat {
 }
 
 export interface Message {
-    sender: AppUser,
+    id: number,
+    chat: number,
+    sender: number,
     messageContent: string,
-    sent: Date
+    sentDate: Date
 }
 
 export enum UserStatus {

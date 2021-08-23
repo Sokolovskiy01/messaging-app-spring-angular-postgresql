@@ -2,6 +2,7 @@ package sokol.messagingapp;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import sokol.messagingapp.model.AppUser;
 import sokol.messagingapp.model.Chat;
@@ -37,10 +38,11 @@ public class ChatController {
     }
 
     @GetMapping("/messages/{chatId}")
-    public ResponseEntity<List<Message>> getChatMessages(@PathVariable("chatId") Long chatId) {
+    public ResponseEntity<List<Message>> getChatMessages(@PathVariable("chatId") Long chatId, @Nullable @RequestParam("userid") Long userid) {
         List<Message> chatMessages;
         try {
-            chatMessages = chatService.getChatMessages(chatId);
+            if (userid != null) chatMessages = chatService.getChatMessagesAsAppUser(chatId, userid);
+            else chatMessages = chatService.getChatMessages(chatId);
             return new ResponseEntity<>(chatMessages, HttpStatus.OK);
         }
         catch (RuntimeException re) {
@@ -61,11 +63,12 @@ public class ChatController {
     /* send message and receive list of all messages in chat */
     @PostMapping("/sendmessage")
     public ResponseEntity<List<Message>> sendMessage(@RequestBody Map<String, Object> messageObject) {
-        Long chatId = (Long) messageObject.get("chatId");
-        Long userId = (Long) messageObject.get("userId");
+        Long chatId = ((Number) messageObject.get("chatId")).longValue();
+        Long userId = ((Number) messageObject.get("userId")).longValue();
         String messageContent = (String) messageObject.get("message");
         /* Message message = */ chatService.sendMessage(chatId, userId, messageContent);
-        return new ResponseEntity<>(chatService.getChatMessages(chatId), HttpStatus.OK);
+        List<Message> chatMessages = chatService.getChatMessages(chatId);
+        return new ResponseEntity<>(chatMessages, HttpStatus.OK);
     }
 
 }

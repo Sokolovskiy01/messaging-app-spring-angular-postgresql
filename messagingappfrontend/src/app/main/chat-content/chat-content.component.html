@@ -1,18 +1,29 @@
 <div class="chat-container">
 
+    <!-- <input #myname value="John Doe"> -->
+    
+
     <div class="chat-title-container">
-
+        <div class="chat-title">
+            <h3 class="recipient-title-name">{{this.recipientName}}</h3>
+            <p class="recipient-title-info" >Last login: {{this.lastRecipientLoginDate | date: 'dd.MM.yyyy'}} </p>
+        </div>
     </div>
 
-    <div class="chat-messages-container">
-
+    <div class="chat-messages-container" >
+        <div *ngFor="let message of this.chatMessages" class="message-block-container" [ngClass]="{ 'message-block-container-recipient' : (message.sender !== this.currentUser.userObject.id) , 'message-block-container-user' : (message.sender === this.currentUser.userObject.id) }">
+            <div class="message-block" [ngClass]="{ 'message-recipient' : (message.sender != this.currentUser.userObject.id), 'message-user' : (message.sender == this.currentUser.userObject.id) }" >
+                <p class="message" >{{message.messageContent}}</p>
+            </div>
+            <p class="message-sent-date" >{{message.sentDate | date: 'dd.MM hh:mm' }}</p>
+        </div>
     </div>
 
-    <div class="message-create-container">
+    <div class="message-create-container" >
         <div class="message-create">
-            <textarea class="message-value" placeholder="Send message" [rows]="this.messageRowsCount" [(ngModel)]="this.messageText" (input)="this.messageSizeCheck()" ></textarea>
-            <div class="message-controls">
-                <i class="fi-br-paper-plane icon-send-button" aria-label="Send message"></i>
+            <textarea class="message-create-value" placeholder="Send message" [rows]="this.messageRowsCount" [(ngModel)]="this.messageText" (keydown.enter)="this.sendMessage()" (input)="this.messageSizeCheck()" ></textarea>
+            <div class="message-create-controls">
+                <i class="fi-br-paper-plane icon-send-button" aria-label="Send message" style="height: 16px;" (click)="this.sendMessage()"></i>
             </div>
         </div>
     </div>
@@ -21,11 +32,28 @@
 <div class="chat-info-container" >
 
     <div class="chat-info-title-container">
-
+        <div class="chat-title" style="flex-direction: row;">
+            <div style="width: 100%;">
+                <h3 class="recipient-title-name">Chat info</h3>
+                <p class="recipient-title-info" >2 members</p>
+            </div>
+            <div class="close-chat-button-container">
+                <button class="close-chat-button"><i class="fi-br-cross" style="font-size: 11px; height: 10px;" (click)="this.closeChat()" ></i></button>
+            </div>
+        </div>
     </div>
 
     <div class="chat-info">
+        <div class="chat-info-category-container">
+            <p class="category-name" >Members</p>
+            <i class="fi-br-angle-small-down category-shrink-button"></i>
+        </div>
 
+        <div class="chat-info-category-container">
+            <p class="category-name" >Options</p>
+            <i class="fi-br-angle-small-down category-shrink-button"></i>
+        </div>
+        
     </div>
 
 </div>

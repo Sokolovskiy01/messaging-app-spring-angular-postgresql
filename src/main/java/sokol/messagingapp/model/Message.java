@@ -14,11 +14,11 @@ public class Message implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="chat", referencedColumnName="id", nullable=false)
+    @JoinColumn(name="chat_id", referencedColumnName="id")
     private Chat chat;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sender", referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "sender_id", referencedColumnName = "id")
     private AppUser sender;
 
     @Column(length = 2048, nullable = false)
@@ -36,10 +36,10 @@ public class Message implements Serializable {
 
     public Long getId() { return id; }
 
-    public Chat getChat() { return chat; }
+    public Long getChat() { return chat.getId(); } /* оно блять всё-равно делает inner join */
     public void setChat(Chat chat) { this.chat = chat; }
 
-    public AppUser getSender() { return sender; }
+    public Long getSender() { return sender.getId(); } /* оно блять всё-равно делает inner join */
     public void setSender(AppUser sender_id) { this.sender = sender_id; }
 
     public String getMessageContent() { return messageContent; }
