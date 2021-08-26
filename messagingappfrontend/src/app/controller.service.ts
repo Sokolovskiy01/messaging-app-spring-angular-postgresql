@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { AppUser } from './model/models';
 import { Observable } from 'rxjs';
 
@@ -52,5 +52,12 @@ export class ControllerService {
     else return false;
   }
 
+  uploadFile(file: File, folder: string): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', folder); // should be "/foldername/"
+    const req = new HttpRequest('POST', this.backendUrl + '/files/upload', formData, {reportProgress: true, responseType: 'json'});
+    return this.http.request(req);
+  }
 
 }

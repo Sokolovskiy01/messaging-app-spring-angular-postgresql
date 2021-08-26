@@ -1,0 +1,158 @@
+.user-profile-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.user-profile-column {
+    width: 100%;
+    max-width: 700px;
+    border-style: solid;
+    border-width: 0px 1px 0px 1px;
+    border-color: var(--blocks-border-color);
+    padding: 16px 24px;
+}
+
+.user-edit-row {
+    width: 100%;
+    position: relative;
+}
+
+.user-edit-row-flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.user-image-container {
+    width: 250px;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.user-settings-round-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.user-settings-round {
+    height: 150px;
+    width: 150px;
+    background-color: antiquewhite;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-image-input-container {
+    background-color: var(--notification-color);
+    border-radius: 18px;
+    height: 36px;
+    width: fit-content;
+    padding: 9px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: var(--interface-transition);
+}
+
+.user-image-input-container:hover {
+    opacity: 1.0;
+}
+
+.user-image-input {
+    position: absolute;
+    z-index: -1;
+    height: 0;
+    width: 0;
+}
+
+.user-image-input-label {
+    font-size: 11pt;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--app-background-primary) !important;
+}
+
+.user-image-input-label > * {
+    color: var(--app-background-primary) !important;
+}
+
+.user-credentials-container {
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+}
+
+.row-input-label {
+    margin: 12px 0;
+    position: relative;
+}
+
+.register-bubmit-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px 0;
+}
+
+.row-label {
+    color: var(--font-color-primary);
+    margin-left: 6px;
+    font-size: 10pt;
+}
+
+.row-input {
+    width: 100%;
+    border: 1px solid var(--blocks-border-color);
+    border-radius: 7px;
+    font-size: 12pt;
+    color: var(--font-color-primary);
+    padding: 8px 12px;
+    outline: none;
+    transition: var(--interface-transition);
+    margin-top: 6px;
+}
+
+.row-input:focus {
+    color: var(--notification-color);
+}
+
+.error-input {
+    border: 1px solid var(--error-color);
+}
+
+.error-input-label {
+    color: var(--error-color);
+    font-size: 9pt;
+    margin-left: 6px;
+}
+
+.submit-button {
+    background-color: var(--notification-color);
+    border: none;
+    padding: 8px 16px;;
+    font-size: 12pt;
+    color: var(--app-background-primary);
+    height: 38px;
+    border-radius: 19px;
+    cursor: pointer;
+    transition: var(--interface-transition);
+    opacity: 0.7;
+    outline: none;
+}
+
+.submit-button:hover {
+    opacity: 1.0;
+}

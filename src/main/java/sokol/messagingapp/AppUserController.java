@@ -10,6 +10,8 @@ import sokol.messagingapp.model.AppUser;
 import sokol.messagingapp.model.UserStatus;
 import sokol.messagingapp.service.AppUserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -49,13 +51,13 @@ public class AppUserController {
         return new ResponseEntity<>(newAppUser, HttpStatus.CREATED);
     }
 
+    // TODO: save session data into backend and retrieve AppUser on frontend app refresh page
     @PostMapping("/login")
     public ResponseEntity<Object> loginAppUser(@RequestBody Map<String, Object> loginObject) {
         String email = (String) loginObject.get("email");
         String password = (String) loginObject.get("password");
         try {
             AppUser appUser = appUserService.loginAppUser(email, password);
-            appUser.setPassword(null);
             return new ResponseEntity<>(appUser, HttpStatus.OK);
         }
         catch (UserExistsException | PasswordException exception) {

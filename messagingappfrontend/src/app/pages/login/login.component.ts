@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
 
   loginFail: boolean = false;
   loginFailMessage: string = "";
+  loading: boolean = false;
 
   constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, public currentUser:CurrentAppUser) {
     if (this.currentUser.isUserLoggedIn) {
@@ -66,12 +67,14 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginClick() : void {
-    if (this.checkFiedls()) {
+    if (!this.loading && this.checkFiedls()) {
+      this.loading = true;
       this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: HttpResponse<AppUser>) => {
-        console.log(res.body);
+        this.loading = false;
+        //console.log(res.body);
         this.currentUser.userObject = res.body;
         this.currentUser.isUserLoggedIn = true;
-        console.log(this.currentUser.userObject);
+        //console.log(this.currentUser.userObject);
         this.router.navigate(['/chats']);
       }, (err: HttpErrorResponse) => {
         this.loginCredentials.password.err = true;

@@ -1,11 +1,13 @@
 package sokol.messagingapp;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import sokol.messagingapp.service.StorageService;
 
 import java.util.Arrays;
 
@@ -30,6 +32,11 @@ public class MessagingAppApplication {
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return new CorsFilter(urlBasedCorsConfigurationSource);
+	}
+
+	@Bean
+	CommandLineRunner init(StorageService storageService) {
+		return (args) -> storageService.init();
 	}
 
 }

@@ -1,1 +1,56 @@
-<p>user-info works!</p>
+<div class="user-profile-container" >
+    <div class="user-profile-column">
+
+        <div class="user-edit-row-flex">
+            <div class="user-image-container">
+                <div class="user-settings-round-container">
+                    <div class="user-settings-round">
+
+                    </div>
+                </div>
+                <div class="user-image-input-container">
+                    <input type="file" class="user-image-input" name="imageInput" id="imageInput" />
+                    <label class="user-image-input-label" for="imageInput" ><i class="fi-br-upload" style="height: 14px; margin: 0 3px;"></i> {{this.uploadImageText}}</label >
+                </div>
+            </div>
+            <div class="user-credentials-container">
+                <div class="row-input-label" >
+                    <span class="row-label">Fisrt name</span>
+                    <input class="row-input" [ngClass]="{'error-input': this.editUserBody.firstName.err}" type="text" [(ngModel)]="this.editUserBody.firstName.value" name="firstName" (input)="this.clearInputErrors(this.editUserBody.firstName)" />
+                    <span class="error-input-label" *ngIf="this.editUserBody.firstName.err" >{{this.editUserBody.firstName.errMessage}}</span>
+                </div>
+
+                <div class="row-input-label" >
+                    <span class="row-label">Last name</span>
+                    <input class="row-input" [ngClass]="{'error-input': this.editUserBody.lastName.err}" type="text" [(ngModel)]="this.editUserBody.lastName.value" name="lastName" (input)="this.clearInputErrors(this.editUserBody.lastName)" />
+                    <span class="error-input-label" *ngIf="this.editUserBody.lastName.err" >{{this.editUserBody.lastName.errMessage}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-edit-row">
+            <div class="row-input-label" >
+                <span class="row-label">Profile comment</span>
+                <input class="row-input" [ngClass]="{'error-input': this.editUserBody.comment.err}" type="text" [(ngModel)]="this.editUserBody.comment.value" name="comment"  />
+                <span class="error-input-label" *ngIf="this.editUserBody.comment.err" >{{this.editUserBody.comment.errMessage}}</span>
+            </div>
+            <div class="row-input-label" >
+                <span class="row-label">Email</span>
+                <input class="row-input" type="email" [(ngModel)]="this.currentUser.userObject.email" name="email" disabled />
+            </div>
+            <div class="row-input-label" >
+                <span class="row-label">Gender</span>
+                <select class="row-input" [ngClass]="{'error-input': this.editUserBody.gender.err}" [(ngModel)]="this.editUserBody.gender.value" name="gender" (input)="this.clearInputErrors(this.editUserBody.gender)" >
+                    <option value="Male" >Male</option>
+                    <option value="Female" >Female</option>
+                </select>
+                <span class="error-input-label" *ngIf="this.editUserBody.gender.err" >{{this.editUserBody.gender.errMessage}}</span>
+            </div>
+
+            <div *ngIf="this.currentUser.isUserLoggedIn">
+                <h3>Account status: {{this.getUserStatus(this.currentUser.userObject.userStatus)}}</h3>
+            </div>
+        </div>
+
+    </div>
+</div>
