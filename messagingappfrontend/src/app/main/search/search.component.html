@@ -16,7 +16,7 @@
                 <div class="user-rounded-container">
                     <div class="round-container" [style.background-color]="user.colors.background">
                         <span *ngIf="user.imageUrl == ''" [style.color]="user.colors.text">{{this.getUserInitials(user.name)}}</span>
-                        <img *ngIf="user.imageUrl != ''" [src]="user.imageUrl" >
+                        <img *ngIf="user.imageUrl != ''" [src]="this.getServerUrl() + user.imageUrl" >
                     </div>
                 </div>
                 <div class="user-info-container">

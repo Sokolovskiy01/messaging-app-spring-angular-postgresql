@@ -36,6 +36,11 @@ export class SearchComponent implements OnInit {
     return this.randomCollorArray[Math.floor(Math.random() * this.randomCollorArray.length)];
   }
 
+  // to assign existing color scheme to AppUser without saving color sheme to database
+  getColorByUserId(appUserId: number) {
+    return this.randomCollorArray[appUserId % this.randomCollorArray.length];
+  }
+
   getUserInitials(userName: string): string {
     let names = userName.split(' ');
     let initials = names[0].charAt(0).toUpperCase() + ((names[1]) ? names[1].charAt(0).toUpperCase() : '');
@@ -52,7 +57,7 @@ export class SearchComponent implements OnInit {
       this.usersList = [];
       this.conroller.get("/users/search?q=" + this.searchQuery + "&uid=" + this.currentUser.userObject.id).subscribe((res: HttpResponse<AppUser[]>) => {
         res.body.forEach((user: any) => {
-          user.colors = this.getRandomColor();
+          user.colors = this.getColorByUserId(user.id);
         });
         this.usersList = res.body
         this.loading = false;
@@ -68,6 +73,10 @@ export class SearchComponent implements OnInit {
     this.conroller.post('/chats/create', sendBody).subscribe((res: HttpResponse<Chat>) => {
       this.router.navigate(['/chats/messages/' + res.body.id]);
     }, (err: HttpErrorResponse) => console.error(err) );
+  }
+
+  getServerUrl(): string {
+    return this.conroller.backendUrl;
   }
 
 }

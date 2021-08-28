@@ -4,12 +4,13 @@
         <div class="user-edit-row-flex">
             <div class="user-image-container">
                 <div class="user-settings-round-container">
-                    <div class="user-settings-round">
-
+                    <div class="user-settings-round" [style.background-color]="this.editUserBody.colors.background">
+                        <span *ngIf="this.currentUser.userObject.imageUrl == '' " [style.color]="this.editUserBody.colors.text" >{{this.getUserInitials(this.currentUser.userObject.name)}}</span>
+                        <img *ngIf="this.currentUser.userObject.imageUrl != '' " [src]="this.getServerUrl() + this.currentUser.userObject.imageUrl" />
                     </div>
                 </div>
                 <div class="user-image-input-container">
-                    <input type="file" class="user-image-input" name="imageInput" id="imageInput" />
+                    <input type="file" class="user-image-input" name="imageInput" id="imageInput" (change)="this.selectFile($event)" />
                     <label class="user-image-input-label" for="imageInput" ><i class="fi-br-upload" style="height: 14px; margin: 0 3px;"></i> {{this.uploadImageText}}</label >
                 </div>
             </div>
@@ -36,7 +37,12 @@
             </div>
             <div class="row-input-label" >
                 <span class="row-label">Email</span>
-                <input class="row-input" type="email" [(ngModel)]="this.currentUser.userObject.email" name="email" disabled />
+                <input class="row-input" type="email" [ngModel]="this.editUserBody.email.value" name="email" disabled />
+            </div>
+            <div class="row-input-label" >
+                <span class="row-label">Date of Birth</span>
+                <input class="row-input" [ngClass]="{'error-input': this.editUserBody.dateOfBirth.err}" type="date" [(ngModel)]="this.editUserBody.dateOfBirth.value" name="dateOfBirth"  />
+                <span class="error-input-label" *ngIf="this.editUserBody.dateOfBirth.err" >{{this.editUserBody.dateOfBirth.errMessage}}</span>
             </div>
             <div class="row-input-label" >
                 <span class="row-label">Gender</span>
@@ -48,8 +54,13 @@
             </div>
 
             <div *ngIf="this.currentUser.isUserLoggedIn">
-                <h3>Account status: {{this.getUserStatus(this.currentUser.userObject.userStatus)}}</h3>
+                <p style="text-align: center;">Account status: {{this.currentUser.userObject.userStatus}}</p>
             </div>
+
+        </div>
+
+        <div class="submit-button-row">
+            <button class="submit-button" (click)="this.onSaveChangesClicked()" >Save changes</button>
         </div>
 
     </div>

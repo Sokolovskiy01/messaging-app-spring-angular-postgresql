@@ -20,7 +20,7 @@
                     <div class="user-rounded-container">
                         <div class="round-container" [style.background-color]="chat.chatColors.background" >
                             <span *ngIf="chat.recipient.imageUrl == '' " [style.color]="chat.chatColors.text" >{{this.getUserInitials(chat.recipient.name)}}</span>
-                            <img *ngIf="chat.recipient.imageUrl != '' " [src]="chat.recipient.imageUrl" />
+                            <img *ngIf="chat.recipient.imageUrl != '' " [src]="this.getServerUrl() + chat.recipient.imageUrl" />
                         </div>
                     </div>
                     <div class="user-name-container">

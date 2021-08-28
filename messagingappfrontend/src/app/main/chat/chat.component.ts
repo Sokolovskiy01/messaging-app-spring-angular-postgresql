@@ -57,11 +57,12 @@ export class ChatComponent implements OnInit, OnDestroy  {
 
   buildChatList(chats: Chat[]): void {
     chats.forEach((chat) => {
+      let recipient = (chat.user1.id == this.currentUser.userObject.id) ? chat.user2 : chat.user1; 
       let newComponentChatElement: ComponentDisplayChat = {
         chatId: chat.id,
-        recipient: (chat.user1.id == this.currentUser.userObject.id) ? chat.user2 : chat.user1,
+        recipient: recipient,
         currentAppUserSeen: (chat.user1.id == this.currentUser.userObject.id) ? chat.user1Seen : chat.user2Seen,
-        chatColors: this.getRandomColor()
+        chatColors: this.getColorByUserId(recipient.id)
       }
       this.userChats.push(newComponentChatElement);
     })
@@ -77,10 +78,19 @@ export class ChatComponent implements OnInit, OnDestroy  {
     return this.randomCollorArray[Math.floor(Math.random() * this.randomCollorArray.length)];
   }
 
+  // to assign existing color scheme to AppUser without saving color sheme to database
+  getColorByUserId(appUserId: number) { 
+    return this.randomCollorArray[appUserId % this.randomCollorArray.length];
+  }
+
   getUserInitials(userName: string): string {
     let names = userName.split(' ');
     let initials = names[0].charAt(0).toUpperCase() + ((names[1]) ? names[1].charAt(0).toUpperCase() : '');
     return initials;
+  }
+
+  getServerUrl(): string {
+    return this.conroller.backendUrl;
   }
 
   ngOnDestroy(): void {

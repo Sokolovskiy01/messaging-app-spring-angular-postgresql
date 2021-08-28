@@ -1,5 +1,7 @@
 package sokol.messagingapp.service;
 
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,28 @@ public class StorageService {
         this.rootLocation = Paths.get(properties.getLocation());
     }
 
-    public void store(MultipartFile file, String folderName) throws IOException {
+    /**
+     * Upload file to backend directory
+     * @param file uploading file
+     * @param folderName template : "foldername/". Could be null
+     * @param filename custom file name to store in provided folder. Could be null
+     * @throws IOException
+     */
+    public void store(@NotNull MultipartFile file, @Nullable String folderName, @Nullable String filename) throws IOException {
         if (file == null || file.isEmpty()) throw new RuntimeException("Requested file to store is empty");
         else {
-            Path newFolder = Paths.get(this.rootLocation.toUri() + folderName);
-            if (!Files.exists(newFolder)) Files.createDirectory(newFolder);
-            Files.copy(file.getInputStream(), this.rootLocation.resolve( folderName + file.getOriginalFilename()));
+            String filepathString = file.getOriginalFilename();
+            if (folderName != null) {
+                Path newFolder = Path.of(this.rootLocation + folderName);
+                if (!Files.exists(newFolder)) Files.createDirectory(newFolder);
+                if (filename != null) {
+                    filepathString = folderName + filename;
+                }
+                else {
+                    filepathString = folderName + file.getOriginalFilename();
+                }
+            }
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(filepathString));
         }
     }
 
@@ -66,5 +84,7 @@ public class StorageService {
             throw new RuntimeException("Could not initialize storage service", ex);
         }
     }
+
+    public Path getRootLocation() { return rootLocation; }
 
 }

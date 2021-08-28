@@ -55,8 +55,17 @@ export class ControllerService {
   uploadFile(file: File, folder: string): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
-    formData.append('folder', folder); // should be "/foldername/"
+    formData.append('folder', folder); // should be "foldername/"
     const req = new HttpRequest('POST', this.backendUrl + '/files/upload', formData, {reportProgress: true, responseType: 'json'});
+    return this.http.request(req);
+  }
+
+  uploadAvatar(file: File, userid: number): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', 'avatars/'); // should be "/foldername/"
+    formData.append('userid', userid.toString());
+    const req = new HttpRequest('POST', this.backendUrl + '/files/avatarUpload', formData, {reportProgress: true, responseType: 'json'});
     return this.http.request(req);
   }
 
