@@ -65,8 +65,8 @@ public class AppUserService {
     }
 
     public AppUser updateUser(AppUser newAppUser) {
-        //AppUser prevAppUser = userRepo.getById(newAppUser.getId());
-        //newAppUser.setPassword(prevAppUser.getPassword());
+        AppUser prevAppUser = userRepo.getById(newAppUser.getId());
+        newAppUser.setPassword(prevAppUser.getPassword());
         return userRepo.save(newAppUser);
     }
 

@@ -1,10 +1,10 @@
 import { formatDate } from '@angular/common';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
-import { UserStatus } from 'src/app/model/models';
+import { AppUser, UserStatus } from 'src/app/model/models';
 
 @Component({
   selector: 'app-user-info',
@@ -16,6 +16,7 @@ export class UserInfoComponent implements OnInit {
   uploadImageText: string = "Set profile photo";
   imageSelected: boolean = false;
   userNewImage: File;
+  isNewImageLoading: boolean = false;
   loadingProgress: number = 0;
 
   randomCollorArray = [
@@ -33,6 +34,20 @@ export class UserInfoComponent implements OnInit {
     gender: { value: "", err: false, errMessage: "" },
     email: { value: "" },
     colors: { background: 'transparent', text: '#000000' }
+  }
+  anyChanges: boolean = false;
+
+  isErrorMessage: boolean = false;
+  isSuccessMessage: boolean = false;
+
+  public setErrorMessageFalse = () : TimerHandler => {
+    this.isErrorMessage = false;
+    return "s";
+  }
+
+  public setSuccessMessageFalse = () : TimerHandler => {
+    this.isSuccessMessage = false;
+    return "s";
   }
 
   constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, private route: ActivatedRoute, public currentUser: CurrentAppUser) { }
@@ -67,11 +82,31 @@ export class UserInfoComponent implements OnInit {
 
   clearInputErrors(field): void {
     field.err = false;
-    field.errMessage = ""
+    field.errMessage = "";
+    this.anyChanges = true;
   }
 
   onSaveChangesClicked(): void {
-
+    if (this.anyChanges) {
+      let newUserBody: any = {};
+      Object.assign(newUserBody, this.currentUser.userObject);
+      newUserBody.name = this.editUserBody.firstName.value + " " + this.editUserBody.lastName.value;
+      newUserBody.dateOfBirth = this.editUserBody.dateOfBirth.value;
+      newUserBody.comment = this.editUserBody.comment.value;
+      newUserBody.gender = this.editUserBody.gender.value;
+      this.conroller.put('/users/update', newUserBody).subscribe((res: HttpResponse<AppUser>) => {
+        this.auth.setUser(res.body);
+        this.refreshUserInfo();
+        this.anyChanges = false;
+        this.isSuccessMessage = true;
+        setTimeout(() => { this.setSuccessMessageFalse() }, 5000);
+      }, (err: HttpErrorResponse) => {
+        console.error(err);
+        this.refreshUserInfo();
+        this.isErrorMessage = true;
+        setTimeout(() => { this.setErrorMessageFalse() }, 5000);
+      });
+    }
   }
 
   selectFile(event: any): void {

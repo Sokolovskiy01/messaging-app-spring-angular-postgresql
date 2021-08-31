@@ -1,11 +1,14 @@
 package sokol.messagingapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table (name = "chats")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Chat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

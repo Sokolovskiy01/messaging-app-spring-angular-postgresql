@@ -4,7 +4,7 @@
         <div class="user-edit-row-flex">
             <div class="user-image-container">
                 <div class="user-settings-round-container">
-                    <div class="user-settings-round" [style.background-color]="this.editUserBody.colors.background">
+                    <div class="user-settings-round" [style.background-color]="this.editUserBody.colors.background" *ngIf="this.currentUser.isUserLoggedIn">
                         <span *ngIf="this.currentUser.userObject.imageUrl == '' " [style.color]="this.editUserBody.colors.text" >{{this.getUserInitials(this.currentUser.userObject.name)}}</span>
                         <img *ngIf="this.currentUser.userObject.imageUrl != '' " [src]="this.getServerUrl() + this.currentUser.userObject.imageUrl" />
                     </div>
@@ -62,6 +62,9 @@
         <div class="submit-button-row">
             <button class="submit-button" (click)="this.onSaveChangesClicked()" >Save changes</button>
         </div>
+
+        <p *ngIf="this.isErrorMessage" class="error-message disolve-animation" >Data was not updated</p>
+        <p *ngIf="this.isSuccessMessage" class="success-message disolve-animation" >Profile was updated!</p>
 
     </div>
 </div>

@@ -1,5 +1,6 @@
 package sokol.messagingapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "app_users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AppUser implements Serializable {
 
     @Id
@@ -83,5 +85,20 @@ public class AppUser implements Serializable {
 
     public LocalDateTime getLastLogin() { return lastLogin; }
     public void setLastLogin(LocalDateTime lastLogin) { this.lastLogin = lastLogin; }
+
+    @Override
+    public String toString() {
+        return "User id: " + this.id + "\n" +
+                "Name: " + this.name + "\n" +
+                "Date of birth: " + this.dateOfBirth + "\n" +
+                "Gender: " + this.gender + "\n" +
+                "ImageUser: " + this.imageUrl + "\n" +
+                "Comment: " + this.comment + "\n" +
+                "Email: " + this.email + "\n" +
+                "Password: " + this.password + "\n" +
+                "UserStatus: " + this.userStatus + "\n" +
+                "BanMessage: " + this.banMessage + "\n" +
+                "LastLogin: " + this.lastLogin;
+    }
 
 }

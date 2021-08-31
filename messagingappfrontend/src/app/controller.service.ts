@@ -21,7 +21,7 @@ export class ControllerService {
   }
 
   put(uri: string, payload: Object ) {
-    return this.http.put(this.backendUrl + uri, payload, { observe: 'response' })
+    return this.http.put(this.backendUrl + uri, payload, { observe: 'response' });
   }
 
   delete(uri: string) {
