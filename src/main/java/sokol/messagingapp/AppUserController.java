@@ -69,7 +69,6 @@ public class AppUserController {
     public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
         // TODO try-catch as in /login
         AppUser updatedAppUser = appUserService.updateUser(appUser);
-        //AppUser returnUser = appUserService.getAppUserById(updatedAppUser.getId());
         return new ResponseEntity<>(updatedAppUser, HttpStatus.OK);
     }
 

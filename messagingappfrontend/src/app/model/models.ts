@@ -31,3 +31,17 @@ export interface Message {
 export enum UserStatus {
     Active, Limited, Banned
 }
+
+/* UI interfaces */
+
+export interface AppUserColor {
+    background: string,
+    text: string
+}
+
+export let AppUserColorsArray: AppUserColor[] = [
+    { background: '#d8edff', text: '#3797ec' },
+    { background: '#ddf6d9', text: '#43c52d' },
+    { background: '#fff0de', text: '#f69c2f' },
+    { background: '#ffd9d9', text: '#f83835' }
+]

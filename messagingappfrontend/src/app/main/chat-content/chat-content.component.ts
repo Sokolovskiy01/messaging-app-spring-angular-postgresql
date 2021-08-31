@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
-import { Chat, Message } from 'src/app/model/models';
+import { AppUser, AppUserColor, Chat, Message, AppUserColorsArray } from 'src/app/model/models';
 
 @Component({
   selector: 'app-chat-content',
@@ -24,7 +24,8 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   chatId: string;
 
   currentChat: Chat;
-  recipientName: string = "Chat title";
+  recipient: AppUser;
+  recipientColor: AppUserColor;
   lastRecipientLoginDate: Date;
   chatMessages: Message[] = []; // must be sorted from newer to older
   loading: boolean = false;
@@ -45,20 +46,21 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   }
 
   loadMessages() {
-    if (this.chatId) {
+    if (this.chatId && this.currentUser.isUserLoggedIn) {
       this.loading = true;
       this.conroller.get('/chats/get/' + this.chatId).subscribe((res: HttpResponse<Chat>) => {
         this.currentChat = res.body;
         if (this.currentChat.user1.id == this.currentUser.userObject.id) {
-          this.recipientName = this.currentChat.user2.name
+          this.recipient = this.currentChat.user2
           this.lastRecipientLoginDate = new Date(this.currentChat.user2.lastLogin);
         }
         else {
-          this.recipientName = this.currentChat.user1.name;
+          this.recipient = this.currentChat.user1;
           this.lastRecipientLoginDate = new Date(this.currentChat.user2.lastLogin);
         }
         this.conroller.get('/chats/messages/' + this.chatId + '?&userid=' + this.currentUser.userObject.id ).subscribe((res2: HttpResponse<Message[]>) => {
           this.chatMessages = res2.body.sort( this._compareMessages );
+          this.recipientColor = this.getColorByUserId(this.recipient.id);
           this.loading = false;
         }, (err2: HttpErrorResponse) => {
           console.error(err2);
@@ -71,7 +73,10 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
     }
   }
 
-  // TODO 
+  getColorByUserId(appUserId: number) {
+    return AppUserColorsArray[appUserId % AppUserColorsArray.length]
+  }
+
   _compareMessages(a: Message, b: Message) {
     if (new Date(a.sentDate).getTime() > new Date(b.sentDate).getTime()) return -1;
     if (new Date(a.sentDate).getTime() < new Date(b.sentDate).getTime()) return 1;
@@ -92,6 +97,16 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
         this.messageText = "";
       }, (err: HttpErrorResponse) => console.error(err) );
     }
+  }
+
+  getUserInitials(userName: string): string {
+    let names = userName.split(' ');
+    let initials = names[0].charAt(0).toUpperCase() + ((names[1]) ? names[1].charAt(0).toUpperCase() : '');
+    return initials;
+  }
+
+  getServerUrl(): string {
+    return this.conroller.backendUrl;
   }
 
   closeChat(): void {

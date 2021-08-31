@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/rou
 import { Subscription } from 'rxjs';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
-import { AppUser, Chat } from 'src/app/model/models';
+import { AppUser, AppUserColorsArray, Chat } from 'src/app/model/models';
 
 interface ComponentDisplayChat {
   chatId: number,
@@ -25,13 +25,6 @@ export class ChatComponent implements OnInit, OnDestroy  {
 
   userChats: ComponentDisplayChat[] = [];
   chatsLoading: boolean = false;
-
-  randomCollorArray = [
-    { background: '#d8edff', text: '#3797ec' },
-    { background: '#ddf6d9', text: '#43c52d' },
-    { background: '#fff0de', text: '#f69c2f' },
-    { background: '#ffd9d9', text: '#f83835' }
-  ]
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private conroller: ControllerService, private auth: AuthService, public currentUser: CurrentAppUser) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -75,12 +68,12 @@ export class ChatComponent implements OnInit, OnDestroy  {
   }
 
   getRandomColor() {
-    return this.randomCollorArray[Math.floor(Math.random() * this.randomCollorArray.length)];
+    return AppUserColorsArray[Math.floor(Math.random() * AppUserColorsArray.length)];
   }
 
   // to assign existing color scheme to AppUser without saving color sheme to database
   getColorByUserId(appUserId: number) { 
-    return this.randomCollorArray[appUserId % this.randomCollorArray.length];
+    return AppUserColorsArray[appUserId % AppUserColorsArray.length];
   }
 
   getUserInitials(userName: string): string {

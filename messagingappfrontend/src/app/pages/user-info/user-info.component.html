@@ -4,7 +4,7 @@
         <div class="user-edit-row-flex">
             <div class="user-image-container">
                 <div class="user-settings-round-container">
-                    <div class="user-settings-round" [style.background-color]="this.editUserBody.colors.background" *ngIf="this.currentUser.isUserLoggedIn">
+                    <div class="user-settings-round" [style.background-color]="this.editUserBody.colors.background" >
                         <span *ngIf="this.currentUser.userObject.imageUrl == '' " [style.color]="this.editUserBody.colors.text" >{{this.getUserInitials(this.currentUser.userObject.name)}}</span>
                         <img *ngIf="this.currentUser.userObject.imageUrl != '' " [src]="this.getServerUrl() + this.currentUser.userObject.imageUrl" />
                     </div>

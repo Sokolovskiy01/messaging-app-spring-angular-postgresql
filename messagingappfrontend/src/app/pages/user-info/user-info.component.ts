@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
-import { AppUser, UserStatus } from 'src/app/model/models';
+import { AppUser, AppUserColorsArray, UserStatus } from 'src/app/model/models';
 
 @Component({
   selector: 'app-user-info',
@@ -18,13 +18,6 @@ export class UserInfoComponent implements OnInit {
   userNewImage: File;
   isNewImageLoading: boolean = false;
   loadingProgress: number = 0;
-
-  randomCollorArray = [
-    { background: '#d8edff', text: '#3797ec' },
-    { background: '#ddf6d9', text: '#43c52d' },
-    { background: '#fff0de', text: '#f69c2f' },
-    { background: '#ffd9d9', text: '#f83835' }
-  ]
 
   editUserBody = {
     firstName: { value: "", err: false, errMessage: "" },
@@ -77,7 +70,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   getColorByUserId(appUserId: number) {
-    return this.randomCollorArray[appUserId % this.randomCollorArray.length];
+    return AppUserColorsArray[appUserId % AppUserColorsArray.length];
   }
 
   clearInputErrors(field): void {

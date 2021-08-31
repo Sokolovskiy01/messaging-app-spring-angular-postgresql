@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
-import { AppUser, Chat, UserStatus } from 'src/app/model/models';
+import { AppUser, Chat, UserStatus, AppUserColorsArray } from 'src/app/model/models';
 
 @Component({
   selector: 'app-search',
@@ -14,13 +14,6 @@ export class SearchComponent implements OnInit {
 
   searchQuery: string = "";
   usersList = [];
-
-  randomCollorArray = [
-    { background: '#d8edff', text: '#3797ec' },
-    { background: '#ddf6d9', text: '#43c52d' },
-    { background: '#fff0de', text: '#f69c2f' },
-    { background: '#ffd9d9', text: '#f83835' }
-  ]
 
   loading: boolean = false;
 
@@ -33,12 +26,12 @@ export class SearchComponent implements OnInit {
   }
 
   getRandomColor() {
-    return this.randomCollorArray[Math.floor(Math.random() * this.randomCollorArray.length)];
+    return AppUserColorsArray[Math.floor(Math.random() * AppUserColorsArray.length)];
   }
 
   // to assign existing color scheme to AppUser without saving color sheme to database
   getColorByUserId(appUserId: number) {
-    return this.randomCollorArray[appUserId % this.randomCollorArray.length];
+    return AppUserColorsArray[appUserId % AppUserColorsArray.length];
   }
 
   getUserInitials(userName: string): string {
