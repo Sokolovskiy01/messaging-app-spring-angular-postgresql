@@ -39,10 +39,10 @@ public class Message implements Serializable {
 
     public Long getId() { return id; }
 
-    public Long getChat() { return chat.getId(); } /* оно блять всё-равно делает inner join */
+    public Chat getChat() { return chat; } /* оно блять всё-равно делает inner join */
     public void setChat(Chat chat) { this.chat = chat; }
 
-    public Long getSender() { return sender.getId(); } /* оно блять всё-равно делает inner join */
+    public AppUser getSender() { return sender; } /* оно блять всё-равно делает inner join */
     public void setSender(AppUser sender_id) { this.sender = sender_id; }
 
     public String getMessageContent() { return messageContent; }

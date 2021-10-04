@@ -25,11 +25,12 @@ public class AppUser implements Serializable {
     @Column(length = 1024)
     private String comment;
 
-     /* Login credentials */
+    /* Login credentials */
     @Column(nullable = false, updatable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
+    /* Login credentials */
 
     @Column(nullable = false)
     private UserStatus userStatus;

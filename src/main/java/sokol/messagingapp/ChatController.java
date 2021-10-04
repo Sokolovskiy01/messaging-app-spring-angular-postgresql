@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import sokol.messagingapp.mapstruct.dtos.MessageDTO;
+import sokol.messagingapp.mapstruct.mappers.MapStructMapper;
 import sokol.messagingapp.model.AppUser;
 import sokol.messagingapp.model.Chat;
 import sokol.messagingapp.model.Message;
@@ -19,10 +21,12 @@ public class ChatController {
 
     private final ChatService chatService;
     private final AppUserService appUserService;
+    private final MapStructMapper mapStructMapper;
 
-    public ChatController(ChatService chatService, AppUserService appUserService) {
+    public ChatController(ChatService chatService, AppUserService appUserService, MapStructMapper mapStructMapper) {
         this.chatService = chatService;
         this.appUserService = appUserService;
+        this.mapStructMapper = mapStructMapper;
     }
 
     @GetMapping("/get/{chatId}")
@@ -38,11 +42,11 @@ public class ChatController {
     }
 
     @GetMapping("/messages/{chatId}")
-    public ResponseEntity<List<Message>> getChatMessages(@PathVariable("chatId") Long chatId, @Nullable @RequestParam("userid") Long userid) {
-        List<Message> chatMessages;
+    public ResponseEntity<List<MessageDTO>> getChatMessages(@PathVariable("chatId") Long chatId, @Nullable @RequestParam("userid") Long userid) {
+        List<MessageDTO> chatMessages;
         try {
-            if (userid != null) chatMessages = chatService.getChatMessagesAsAppUser(chatId, userid);
-            else chatMessages = chatService.getChatMessages(chatId);
+            if (userid != null) chatMessages = mapStructMapper.messageListToMessageDTOList(chatService.getChatMessagesAsAppUser(chatId, userid));
+            else chatMessages = mapStructMapper.messageListToMessageDTOList(chatService.getChatMessages(chatId));
             return new ResponseEntity<>(chatMessages, HttpStatus.OK);
         }
         catch (RuntimeException re) {
@@ -62,13 +66,12 @@ public class ChatController {
 
     /* send message and receive list of all messages in chat */
     @PostMapping("/sendmessage")
-    public ResponseEntity<List<Message>> sendMessage(@RequestBody Map<String, Object> messageObject) {
+    public ResponseEntity<List<MessageDTO>> sendMessage(@RequestBody Map<String, Object> messageObject) {
         Long chatId = ((Number) messageObject.get("chatId")).longValue();
         Long userId = ((Number) messageObject.get("userId")).longValue();
         String messageContent = (String) messageObject.get("message");
         /* Message message = */ chatService.sendMessage(chatId, userId, messageContent);
-        List<Message> chatMessages = chatService.getChatMessages(chatId);
-        return new ResponseEntity<>(chatMessages, HttpStatus.OK);
+        return new ResponseEntity<>(mapStructMapper.messageListToMessageDTOList(chatService.getChatMessages(chatId)), HttpStatus.OK);
     }
 
 }

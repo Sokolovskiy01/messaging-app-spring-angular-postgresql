@@ -1,20 +1,16 @@
 package sokol.messagingapp;
 
-import org.springframework.http.HttpEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sokol.messagingapp.exception.PasswordException;
 import sokol.messagingapp.exception.UserExistsException;
+import sokol.messagingapp.mapstruct.dtos.AppUserDTO;
+import sokol.messagingapp.mapstruct.mappers.MapStructMapper;
 import sokol.messagingapp.model.AppUser;
-import sokol.messagingapp.model.UserStatus;
 import sokol.messagingapp.service.AppUserService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,15 +19,17 @@ import java.util.Map;
 public class AppUserController {
 
     private final AppUserService appUserService;
+    private final MapStructMapper mapStructMapper;
 
-    public AppUserController(AppUserService appUserService) {
+    @Autowired
+    public AppUserController(AppUserService appUserService, MapStructMapper mapStructMapper) {
         this.appUserService = appUserService;
+        this.mapStructMapper = mapStructMapper;
     }
 
     @GetMapping("/{userid}")
-    public ResponseEntity<AppUser> getAppUser(@PathVariable("userid") Long id) {
-        AppUser requestUser = appUserService.getAppUserById(id);
-        return new ResponseEntity<>(requestUser, HttpStatus.OK);
+    public ResponseEntity<AppUserDTO> getAppUser(@PathVariable("userid") Long id) {
+        return new ResponseEntity<>(mapStructMapper.appUserToAppUserDTO(appUserService.getAppUserById(id)), HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -48,7 +46,7 @@ public class AppUserController {
         AppUser newAppUser;
         try { newAppUser = appUserService.createUser(appUser); }
         catch (UserExistsException uex) { return new ResponseEntity<>(uex.getMessage(), HttpStatus.NOT_ACCEPTABLE); }
-        return new ResponseEntity<>(newAppUser, HttpStatus.CREATED);
+        return new ResponseEntity<>( mapStructMapper.appUserToAppUserDTO(newAppUser), HttpStatus.CREATED);
     }
 
     // TODO: save session data into backend and retrieve AppUser on frontend app refresh page
@@ -57,8 +55,7 @@ public class AppUserController {
         String email = (String) loginObject.get("email");
         String password = (String) loginObject.get("password");
         try {
-            AppUser appUser = appUserService.loginAppUser(email, password);
-            return new ResponseEntity<>(appUser, HttpStatus.OK);
+            return new ResponseEntity<>(mapStructMapper.appUserToAppUserDTO(appUserService.loginAppUser(email, password)), HttpStatus.OK);
         }
         catch (UserExistsException | PasswordException exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
@@ -66,10 +63,9 @@ public class AppUserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<AppUser> updateAppUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<AppUserDTO> updateAppUser(@RequestBody AppUser appUser) {
         // TODO try-catch as in /login
-        AppUser updatedAppUser = appUserService.updateUser(appUser);
-        return new ResponseEntity<>(updatedAppUser, HttpStatus.OK);
+        return new ResponseEntity<>(mapStructMapper.appUserToAppUserDTO(appUserService.updateUser(appUser)), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{userid}")

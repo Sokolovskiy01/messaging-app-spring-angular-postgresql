@@ -107,7 +107,7 @@ i.category-add-button:hover {
 }
 
 .chat-element:hover {
-    background-color: var(--app-background-primary);
+    color: var(--font-color-primary);
 }
 
 .chat-element-selected {

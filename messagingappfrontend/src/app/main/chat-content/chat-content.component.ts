@@ -90,7 +90,7 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   }
 
   sendMessage(): void {
-    if (!this.loading) {
+    if (!this.loading || this.messageText.length > 1) {
       this.conroller.post('/chats/sendmessage', { userId: this.currentUser.userObject.id, chatId: parseInt(this.chatId), message: this.messageText } ).subscribe((res: HttpResponse<Message[]>) => {
         this.chatMessages = res.body.sort( this._compareMessages );
         this.messageRowsCount = 1;
