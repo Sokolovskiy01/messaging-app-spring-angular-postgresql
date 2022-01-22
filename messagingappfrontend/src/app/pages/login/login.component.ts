@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit {
         this.loginCredentials.email.err = true;
         this.loginFail = true;
         this.loginFailMessage = err.error;
+        this.loading = false;
       });
     }
   }
