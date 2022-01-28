@@ -29,14 +29,20 @@ export class LoginComponent implements OnInit {
   loginFailMessage: string = "";
   loading: boolean = false;
 
-  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, public currentUser:CurrentAppUser) {
+  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, public currentUser: CurrentAppUser) { }
+
+  ngOnInit(): void {
     if (this.currentUser.isUserLoggedIn) {
       this.router.navigate(['/chats']);
     }
-  }
-
-  ngOnInit(): void {
-    
+    else {
+      this.conroller.userGetLogin().then(res => {
+        this.auth.loginUser(res);
+        this.router.navigate(['/chats']);
+      }, err => {
+        this.router.navigate(['/login']);
+      })
+    }
   }
 
   /**
@@ -71,11 +77,10 @@ export class LoginComponent implements OnInit {
       this.loading = true;
       this.conroller.userLogin(this.loginCredentials.email.value, this.loginCredentials.password.value).subscribe((res: HttpResponse<AppUser>) => {
         this.loading = false;
-        //console.log(res.body);
         this.currentUser.userObject = res.body;
         this.currentUser.isUserLoggedIn = true;
-        //console.log(this.currentUser.userObject);
         this.router.navigate(['/chats']);
+        localStorage.setItem('token', btoa(this.loginCredentials.email.value + ':' + this.loginCredentials.password.value));
       }, (err: HttpErrorResponse) => {
         this.loginCredentials.password.err = true;
         this.loginCredentials.email.err = true;

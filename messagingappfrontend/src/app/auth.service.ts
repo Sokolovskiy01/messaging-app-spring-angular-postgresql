@@ -25,16 +25,12 @@ export class CurrentAppUser {
 export class AuthService {
 
   constructor(private conroller: ControllerService, private router: Router, private currentUser: CurrentAppUser) {
-    // try to login
   }
 
-  loginUser(email: string, password: string) {
-    this.conroller.userLogin(email, password).subscribe((res: HttpResponse<AppUser>) => {
-      this.currentUser.userObject = res.body;
-      this.currentUser.isUserLoggedIn = true;
-      this.router.navigate(['/chats'])
-      //console.log(res, this.currentUser);
-    }, (err: HttpErrorResponse) => console.error(err.error) );
+  loginUser(res: HttpResponse<AppUser>) {
+    this.currentUser.userObject = res.body;
+    this.currentUser.isUserLoggedIn = true;
+    this.router.navigate(['/chats']);
   }
 
   setUser(appUser: AppUser) {
@@ -43,11 +39,9 @@ export class AuthService {
   }
 
   logoutUser() {
-    //let userId = this.currentUser.id;
-    //this.conroller.post('/logout', { userId }).subscribe((res: HttpResponse<any>) => {
-      this.currentUser.clearDataAfterLogout();
-      this.router.navigate(['/login']);
-    //}, (err: HttpErrorResponse) => console.error(err.error) );
+    localStorage.removeItem('token');
+    this.currentUser.clearDataAfterLogout();
+    this.router.navigate(['/login']);
   }
 
 }

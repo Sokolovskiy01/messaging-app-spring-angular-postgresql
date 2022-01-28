@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   { path: 'search', component: SearchComponent },
   { path: 'user', component: UserInfoComponent },
-  { path: '' , redirectTo: '/chats', pathMatch: 'full' }, // default route for page load
+  { path: '' , redirectTo: '/login', pathMatch: 'full' }, // default route for page load
   { path: '**', redirectTo: '/chats', pathMatch: 'full'} // route for 404 page
 ];
 

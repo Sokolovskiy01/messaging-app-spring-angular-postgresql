@@ -17,13 +17,13 @@
             <div class="user-credentials-container">
                 <div class="row-input-label" >
                     <span class="row-label">Fisrt name</span>
-                    <input class="row-input" [ngClass]="{'error-input': this.editUserBody.firstName.err}" type="text" [(ngModel)]="this.editUserBody.firstName.value" name="firstName" (input)="this.clearInputErrors(this.editUserBody.firstName)" />
+                    <input class="row-input" [ngClass]="{'error-input': this.editUserBody.firstName.err}" type="text" [(ngModel)]="this.editUserBody.firstName.value" name="firstName" (change)="this.anyChanges = true" (input)="this.clearInputErrors(this.editUserBody.firstName)" />
                     <span class="error-input-label" *ngIf="this.editUserBody.firstName.err" >{{this.editUserBody.firstName.errMessage}}</span>
                 </div>
 
                 <div class="row-input-label" >
                     <span class="row-label">Last name</span>
-                    <input class="row-input" [ngClass]="{'error-input': this.editUserBody.lastName.err}" type="text" [(ngModel)]="this.editUserBody.lastName.value" name="lastName" (input)="this.clearInputErrors(this.editUserBody.lastName)" />
+                    <input class="row-input" [ngClass]="{'error-input': this.editUserBody.lastName.err}" type="text" [(ngModel)]="this.editUserBody.lastName.value" name="lastName" (change)="this.anyChanges = true" (input)="this.clearInputErrors(this.editUserBody.lastName)" />
                     <span class="error-input-label" *ngIf="this.editUserBody.lastName.err" >{{this.editUserBody.lastName.errMessage}}</span>
                 </div>
             </div>
@@ -32,7 +32,7 @@
         <div class="user-edit-row">
             <div class="row-input-label" >
                 <span class="row-label">Profile comment</span>
-                <input class="row-input" [ngClass]="{'error-input': this.editUserBody.comment.err}" type="text" [(ngModel)]="this.editUserBody.comment.value" name="comment"  />
+                <input class="row-input" [ngClass]="{'error-input': this.editUserBody.comment.err}" type="text" [(ngModel)]="this.editUserBody.comment.value" (change)="this.anyChanges = true" name="comment"  />
                 <span class="error-input-label" *ngIf="this.editUserBody.comment.err" >{{this.editUserBody.comment.errMessage}}</span>
             </div>
             <div class="row-input-label" >
@@ -41,12 +41,12 @@
             </div>
             <div class="row-input-label" >
                 <span class="row-label">Date of Birth</span>
-                <input class="row-input" [ngClass]="{'error-input': this.editUserBody.dateOfBirth.err}" type="date" [(ngModel)]="this.editUserBody.dateOfBirth.value" name="dateOfBirth"  />
+                <input class="row-input" [ngClass]="{'error-input': this.editUserBody.dateOfBirth.err}" type="date" [(ngModel)]="this.editUserBody.dateOfBirth.value" (change)="this.anyChanges = true" name="dateOfBirth"  />
                 <span class="error-input-label" *ngIf="this.editUserBody.dateOfBirth.err" >{{this.editUserBody.dateOfBirth.errMessage}}</span>
             </div>
             <div class="row-input-label" >
                 <span class="row-label">Gender</span>
-                <select class="row-input" [ngClass]="{'error-input': this.editUserBody.gender.err}" [(ngModel)]="this.editUserBody.gender.value" name="gender" (input)="this.clearInputErrors(this.editUserBody.gender)" >
+                <select class="row-input" [ngClass]="{'error-input': this.editUserBody.gender.err}" [(ngModel)]="this.editUserBody.gender.value" name="gender" (change)="this.anyChanges = true" (input)="this.clearInputErrors(this.editUserBody.gender)" >
                     <option value="Male" >Male</option>
                     <option value="Female" >Female</option>
                 </select>

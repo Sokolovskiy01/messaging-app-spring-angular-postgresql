@@ -46,7 +46,17 @@ export class UserInfoComponent implements OnInit {
   constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, private route: ActivatedRoute, public currentUser: CurrentAppUser) { }
 
   ngOnInit(): void {
-    if (this.currentUser.isUserLoggedIn) this.refreshUserInfo();
+    if (this.currentUser.isUserLoggedIn) {
+      this.refreshUserInfo();
+    }
+    else {
+      this.conroller.userGetLogin().then(res => {
+        this.auth.loginUser(res);
+        this.refreshUserInfo();
+      }, err => {
+        this.router.navigate(['/login']);
+      })
+    }
   }
 
   refreshUserInfo(): void {

@@ -38,7 +38,7 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
       if (event instanceof NavigationEnd) {
         this.loadMessages();
       }
-    })
+    });
   }
 
   ngOnInit(): void {

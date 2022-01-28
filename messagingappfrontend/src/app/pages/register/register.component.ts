@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
 import { AppUser, UserStatus } from 'src/app/model/models';
 
@@ -26,12 +26,22 @@ export class RegisterComponent implements OnInit {
   regFail: boolean = false;
   regFailMessage: string = "";
 
-  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router) {
+  constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, public currentUser: CurrentAppUser) {
 
   }
 
   ngOnInit(): void {
-    
+    if (this.currentUser.isUserLoggedIn) {
+      this.router.navigate(['/chats']);
+    }
+    else {
+      this.conroller.userGetLogin().then(res => {
+        this.auth.loginUser(res);
+        this.router.navigate(['/chats']);
+      }, err => {
+        this.router.navigate(['/login']);
+      })
+    }
   }
 
   /**

@@ -35,7 +35,17 @@ export class ChatComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
-    this.loadAppUserChats();
+    if (this.currentUser.isUserLoggedIn) {
+      this.loadAppUserChats();
+    }
+    else {
+      this.conroller.userGetLogin().then(res => {
+        this.auth.loginUser(res);
+        this.loadAppUserChats();
+      }, err => {
+        this.router.navigate(['/login']);
+      })
+    }
   }
 
   loadAppUserChats() : void {
@@ -65,6 +75,10 @@ export class ChatComponent implements OnInit, OnDestroy  {
     let activeChildren = this.activatedRoute.children.length;
     if (activeChildren != 0) this.noChildRoute = false;
     else this.noChildRoute = true;
+  }
+
+  testRequest(): void {
+    console.log(this.currentUser.userObject);
   }
 
   getRandomColor() {

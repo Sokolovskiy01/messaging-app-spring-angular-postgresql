@@ -62,6 +62,7 @@ public class ChatService {
      */
     public Chat createChat(AppUser user1, AppUser user2) {
         Optional<Chat> existingChat = chatRepo.findByUser1IdAndUser2Id(user1.getId(), user2.getId());
+        if (existingChat.isEmpty()) existingChat = chatRepo.findByUser1IdAndUser2Id(user2.getId(), user1.getId());
         if (existingChat.isEmpty()) {
             return chatRepo.save(new Chat(user1, user2, true, false));
         }

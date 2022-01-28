@@ -22,7 +22,13 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    if (!this.currentUser.isUserLoggedIn) {
+      this.conroller.userGetLogin().then(res => {
+        this.auth.loginUser(res);
+      }, err => {
+        this.router.navigate(['/login']);
+      })
+    }
   }
 
   getRandomColor() {

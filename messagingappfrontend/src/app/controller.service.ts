@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { AppUser } from './model/models';
 import { Observable } from 'rxjs';
 
@@ -29,7 +29,7 @@ export class ControllerService {
   }
 
   userLogin(email: string, password: string) {
-    return this.http.post(this.backendUrl + '/users/login', { email: email, password: password }, { observe: 'response' });
+    return this.http.post<AppUser>(this.backendUrl + '/users/login', { email: email, password: password }, { observe: 'response' });
   }
 
   userCreate(newAppUser: AppUser) {
@@ -44,7 +44,18 @@ export class ControllerService {
    * Get saved user login from cookies in backend
    */
   userGetLogin() { 
-    return this.get('/savedlogin')
+    let credentials = localStorage.getItem('token');
+    if (credentials != null) {
+      let separateCredentials = atob(credentials).split(':');
+      let email = separateCredentials[0];
+      let password = separateCredentials[1];
+      return this.userLogin(email, password).toPromise();
+    }
+    else {
+      new Promise((resolve, reject) => {
+        reject('No data stored');
+      });
+    }
   }
 
   validateEmail(email: string) : boolean {
@@ -63,7 +74,7 @@ export class ControllerService {
   uploadAvatar(file: File, userid: number): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
-    formData.append('folder', 'avatars/'); // should be "/foldername/"
+    formData.append('folder', 'avatars/');
     formData.append('userid', userid.toString());
     const req = new HttpRequest('POST', this.backendUrl + '/files/avatarUpload', formData, {reportProgress: true, responseType: 'json'});
     return this.http.request(req);
