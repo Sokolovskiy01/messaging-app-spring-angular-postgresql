@@ -21,7 +21,7 @@
             <div class="message-block" [ngClass]="{ 'message-recipient' : (message.sender != this.currentUser.userObject.id), 'message-user' : (message.sender == this.currentUser.userObject.id) }" >
                 <p class="message" >{{message.messageContent}}</p>
             </div>
-            <p class="message-sent-date" >{{message.sentDate | date: 'dd.MM hh:mm' }}</p>
+            <p class="message-sent-date" >{{message.sentDate | date: 'dd.MM HH:mm' }}</p>
         </div>
     </div>
 

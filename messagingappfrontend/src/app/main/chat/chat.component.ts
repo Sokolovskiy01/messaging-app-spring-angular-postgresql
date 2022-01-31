@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
 import { AppUser, AppUserColorsArray, Chat } from 'src/app/model/models';
+//import * as Stomp from 'stompjs';
+//import * as SockJS from 'sockjs-client';
 
 interface ComponentDisplayChat {
   chatId: number,
@@ -26,6 +28,9 @@ export class ChatComponent implements OnInit, OnDestroy  {
   userChats: ComponentDisplayChat[] = [];
   chatsLoading: boolean = false;
 
+  topic: string = "/messagesWS/greetings";
+  stompClient: any;
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private conroller: ControllerService, private auth: AuthService, public currentUser: CurrentAppUser) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -37,18 +42,20 @@ export class ChatComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     if (this.currentUser.isUserLoggedIn) {
       this.loadAppUserChats();
+      //this.initWebSocket();
     }
     else {
       this.conroller.userGetLogin().then(res => {
         this.auth.loginUser(res);
         this.loadAppUserChats();
+        //this.initWebSocket();
       }, err => {
         this.router.navigate(['/login']);
       })
     }
   }
 
-  loadAppUserChats() : void {
+  loadAppUserChats(): void {
     if (this.currentUser.isUserLoggedIn) {
       this.chatsLoading = true;
       this.conroller.get('/chats/user/' + this.currentUser.userObject.id).subscribe((res: HttpResponse<Chat[]>) => {
@@ -57,6 +64,45 @@ export class ChatComponent implements OnInit, OnDestroy  {
       }, (err: HttpErrorResponse) => console.error(err) );
     }
   }
+
+  /*initWebSocket(): void {
+    console.log("Initialize WebSocket Connection");
+    let ws = new SockJS(this.conroller.backendWebsocketEndPoint);
+    //this.stompClient = Stomp.over(ws);
+  }
+
+  WSConnect() {
+    const _this = this;
+    _this.stompClient.connect({}, function (frame) {
+        _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
+            _this.onMessageReceived(sdkEvent);
+        });
+        //_this.stompClient.reconnect_delay = 2000;
+    }, this.errorCallBack);
+  }
+
+  WSDisconnect() {
+    if (this.stompClient !== null) {
+      this.stompClient.disconnect();
+    }
+    console.log("Disconnected");
+  }
+
+  WSSendMessage(message) {
+    this.stompClient.send("/app/hello", {}, message);
+  }
+
+  onMessageReceived(message) {
+    console.log("Message Recieved from Server :: " + message);
+    //this.appComponent.handleMessage(JSON.stringify(message.body));
+  }
+
+  errorCallBack(error) {
+    console.log("errorCallBack -> " + error)
+    //setTimeout(() => {
+    //    this._connect();
+    //}, 5000);
+  }*/
 
   buildChatList(chats: Chat[]): void {
     chats.forEach((chat) => {

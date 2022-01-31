@@ -111,7 +111,15 @@ i.category-add-button:hover {
 }
 
 .chat-element-selected {
-    background-color: var(--app-background-primary);
+    background-color: var(--notification-color);
+}
+
+.chat-element-selected .user-name {
+    color: var(--app-background-primary);
+}
+
+.chat-element-selected:hover .user-name {
+    color: var(--app-background-secondary) !important;
 }
 
 .user-rounded-container {

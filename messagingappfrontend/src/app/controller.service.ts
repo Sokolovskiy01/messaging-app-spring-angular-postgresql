@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class ControllerService {
 
-  backendUrl = "http://localhost:8080";
+  readonly backendWebsocketEndPoint = "http://localhost:8080/ws";
+  readonly backendUrl = "http://localhost:8080";
 
   constructor(private http: HttpClient) { }
 
