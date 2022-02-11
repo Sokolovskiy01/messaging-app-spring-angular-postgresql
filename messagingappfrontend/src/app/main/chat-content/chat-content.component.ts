@@ -26,9 +26,15 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   currentChat: Chat;
   recipient: AppUser;
   recipientColor: AppUserColor;
+  currentUserColor: AppUserColor;
   lastRecipientLoginDate: Date;
   chatMessages: Message[] = []; // must be sorted from newer to older
   loading: boolean = false;
+
+  messagesSubscription: Subscription;
+  readonly responseDestionation: string = "/user/userMessages/messages";
+  readonly responseSubscription: string = "/messagesCheck";
+  readonly rejectSubscriprion: string = "/messagesUnsubscribe";
 
   constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, private route: ActivatedRoute, public currentUser: CurrentAppUser) {
     this.route.params.subscribe((params: Params) => {
@@ -36,16 +42,25 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
     });
     this.navigationSubscription = this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        this.loadMessages();
+        console.log("gg");
+        this.unsubscribeMessages();
+        this.reloadComponent();
+        //this.loadChat();
+        // change subscription destination
       }
     });
   }
 
   ngOnInit(): void {
-
+    this.currentUserColor = this.getColorByUserId(this.currentUser.userObject.id);
   }
 
-  loadMessages() {
+  reloadComponent(): void {
+    this.loadChat();
+    this.initMessagesCheck();
+  }
+
+  loadChat() {
     if (this.chatId && this.currentUser.isUserLoggedIn) {
       this.loading = true;
       this.conroller.get('/chats/get/' + this.chatId).subscribe((res: HttpResponse<Chat>) => {
@@ -58,18 +73,55 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
           this.recipient = this.currentChat.user1;
           this.lastRecipientLoginDate = new Date(this.currentChat.user2.lastLogin);
         }
-        this.conroller.get('/chats/messages/' + this.chatId + '?&userid=' + this.currentUser.userObject.id ).subscribe((res2: HttpResponse<Message[]>) => {
-          this.chatMessages = res2.body.sort( this._compareMessages );
-          this.recipientColor = this.getColorByUserId(this.recipient.id);
-          this.loading = false;
-        }, (err2: HttpErrorResponse) => {
-          console.error(err2);
-          this.loading = false;
-        } );
+        this.loadMessages();
       }, (err: HttpErrorResponse) => {
         console.error(err)
         this.loading = false;
       } );
+    }
+  }
+
+  loadMessages(): void {
+    this.loading = true;
+    this.conroller.get('/chats/messages/' + this.chatId + '?&userid=' + this.currentUser.userObject.id ).subscribe((res2: HttpResponse<Message[]>) => {
+      this.chatMessages = res2.body.sort( this._compareMessages );
+      this.recipientColor = this.getColorByUserId(this.recipient.id);
+      this.loading = false;
+    }, (err2: HttpErrorResponse) => {
+      console.error(err2);
+      this.loading = false;
+    } );
+  }
+
+  addNewMessage(message: Message): void {
+    this.chatMessages.unshift(message);
+  }
+
+  initMessagesCheck(): void {
+    const _this = this;
+    this.messagesSubscription = this.conroller.stompClient.subscribe(this.responseDestionation, function(sdkEvent) {
+      let responseBody = JSON.parse(sdkEvent.body);
+      console.log("Messages response : ", responseBody);
+      let message: Message = responseBody.message;
+      console.log(message);
+      if (message != null) {
+        _this.addNewMessage(message);
+      }
+    });
+    this.checkMessages();
+  }
+
+  checkMessages(): void {
+    if (this.chatId != null && this.chatId != "") {
+      this.conroller._send({userId: this.currentUser.userObject.id, chatId: parseInt(this.chatId) }, this.responseSubscription);
+    }
+    else console.error("ChatId is null");
+  }
+
+  unsubscribeMessages(): void{
+    if (this.messagesSubscription) {
+      this.conroller._send({userId: this.currentUser.userObject.id, chatId: parseInt(this.chatId) }, this.rejectSubscriprion);
+      this.messagesSubscription.unsubscribe();
     }
   }
 
@@ -115,6 +167,7 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
 
   ngOnDestroy(): void {
     if (this.navigationSubscription) this.navigationSubscription.unsubscribe();
+    this.unsubscribeMessages();
   }
 
 }

@@ -55,9 +55,38 @@
             <i class="fi-br-angle-small-down category-shrink-button"></i>
         </div>
 
+        <div class="chat-info-category-content-container">
+            <div class="chat-info-member-container">
+                <div class="user-rounded-container">
+                    <div class="round-container" [style.background-color]="this.recipientColor.background" >
+                        <span *ngIf="this.recipient.imageUrl == '' " [style.color]="this.recipientColor.text" >{{this.getUserInitials(this.recipient.name)}}</span>
+                        <img *ngIf="this.recipient.imageUrl != '' " [src]="this.getServerUrl() + this.recipient.imageUrl" />
+                    </div>
+                </div>
+                <div class="user-name-container">
+                    <p class="user-name">{{this.recipient.name}}</p>
+                </div>
+            </div>
+            <div class="chat-info-member-container">
+                <div class="user-rounded-container">
+                    <div class="round-container" [style.background-color]="this.currentUserColor.background" >
+                        <span *ngIf="this.currentUser.userObject.imageUrl == '' " [style.color]="this.currentUserColor.text" >{{this.getUserInitials(this.currentUser.userObject.name)}}</span>
+                        <img *ngIf="this.currentUser.userObject.imageUrl != '' " [src]="this.getServerUrl() + this.currentUser.userObject.imageUrl" />
+                    </div>
+                </div>
+                <div class="user-name-container">
+                    <p class="user-name">{{this.currentUser.userObject.name}} <span style="color: #555;">(You)</span></p>
+                </div>
+            </div>
+        </div>
+
         <div class="chat-info-category-container">
             <p class="category-name" >Options</p>
             <i class="fi-br-angle-small-down category-shrink-button"></i>
+        </div>
+
+        <div class="chat-info-category-content-container">
+
         </div>
         
     </div>

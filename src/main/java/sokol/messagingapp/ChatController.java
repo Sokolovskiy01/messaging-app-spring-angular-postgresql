@@ -12,8 +12,10 @@ import sokol.messagingapp.model.Message;
 import sokol.messagingapp.service.AppUserService;
 import sokol.messagingapp.service.ChatService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/chats")
@@ -51,6 +53,22 @@ public class ChatController {
         }
         catch (RuntimeException re) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/members/{chatId}")
+    public ResponseEntity<Map<String, Object>> getChatMembers(@PathVariable("chatId") Long chatId) {
+        Map<String, Object> responseBody = new HashMap<>();
+        Chat chat = chatService.getChatById(chatId);
+        if (chat != null) {
+            responseBody.put("user1", chat.getUser1());
+            responseBody.put("user2", chat.getUser2());
+            responseBody.put("status", 200);
+            return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        }
+        else {
+            responseBody.put("status", 404);
+            return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
         }
     }
 

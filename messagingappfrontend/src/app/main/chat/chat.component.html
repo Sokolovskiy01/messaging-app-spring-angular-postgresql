@@ -16,12 +16,13 @@
             </div>
             
             <ul class="chat-list">
-                <li *ngFor="let chat of this.userChats" class="chat-element" [routerLink]="['/chats/messages/' + chat.chatId]" routerLinkActive="chat-element-selected" >
+                <li *ngFor="let chat of this.userChats" class="chat-element" [routerLink]="['/chats/messages/' + chat.chatId]" [ngClass]="{ 'chat-element-unread' : !chat.currentAppUserSeen }" routerLinkActive="chat-element-selected" >
                     <div class="user-rounded-container">
                         <div class="round-container" [style.background-color]="chat.chatColors.background" >
                             <span *ngIf="chat.recipient.imageUrl == '' " [style.color]="chat.chatColors.text" >{{this.getUserInitials(chat.recipient.name)}}</span>
                             <img *ngIf="chat.recipient.imageUrl != '' " [src]="this.getServerUrl() + chat.recipient.imageUrl" />
                         </div>
+                        <div class="round-unread-circle"></div>
                     </div>
                     <div class="user-name-container">
                         <p class="user-name">{{chat.recipient.name}}</p>
@@ -29,8 +30,6 @@
                 </li>
             </ul>
         </div>
-
-        <button (click)="testRequest()" >test</button>
 
     </div>
 

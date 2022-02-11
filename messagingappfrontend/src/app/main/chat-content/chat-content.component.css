@@ -220,3 +220,65 @@ i.category-shrink-button {
 .chat-info-category-container:hover > i, .chat-info-category-container:hover > p {
     color: var(--highlight-color);
 }
+
+.chat-info-category-content-container {
+
+}
+
+.chat-info-member-container {
+    display: flex;
+    width: 100%;
+    padding: 3px 0;
+    align-items: center;
+    position: relative;
+    /*padding: 6px 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: var(--interface-transition);
+    border-radius: 7px;*/
+}
+
+.user-rounded-container {
+    flex-shrink: 0;
+    overflow: hidden;
+    padding: 0 8px;
+    position: relative;
+}
+
+.round-container {
+    width: 28px;
+    height: 28px;
+    background-color: #d35074;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.round-container > span {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.round-container > img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.user-name-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.user-name {
+    width: 100%;
+    font-size: 11pt;
+    margin: 0;
+    color: var(--font-color-secondary);
+}

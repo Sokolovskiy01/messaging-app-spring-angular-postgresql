@@ -5,8 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService, CurrentAppUser } from 'src/app/auth.service';
 import { ControllerService } from 'src/app/controller.service';
 import { AppUser, AppUserColorsArray, Chat } from 'src/app/model/models';
-//import * as Stomp from 'stompjs';
-//import * as SockJS from 'sockjs-client';
+
 
 interface ComponentDisplayChat {
   chatId: number,
@@ -28,8 +27,10 @@ export class ChatComponent implements OnInit, OnDestroy  {
   userChats: ComponentDisplayChat[] = [];
   chatsLoading: boolean = false;
 
-  topic: string = "/messagesWS/greetings";
-  stompClient: any;
+  chatsSubscriprtion: Subscription;
+  readonly responseDestionation: string = "/user/userMessages/chats";
+  readonly responseSubscription: string = "/chatsCheck";
+  readonly rejectSubscriprion: string = "/chatsUnsubscribe";
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private conroller: ControllerService, private auth: AuthService, public currentUser: CurrentAppUser) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -38,17 +39,17 @@ export class ChatComponent implements OnInit, OnDestroy  {
       }
     });
   }
-
+  
   ngOnInit(): void {
     if (this.currentUser.isUserLoggedIn) {
-      this.loadAppUserChats();
-      //this.initWebSocket();
+      //this.loadAppUserChats();
+      this.initChatsCheck();
     }
     else {
       this.conroller.userGetLogin().then(res => {
         this.auth.loginUser(res);
-        this.loadAppUserChats();
-        //this.initWebSocket();
+        //this.loadAppUserChats();
+        this.initChatsCheck();
       }, err => {
         this.router.navigate(['/login']);
       })
@@ -65,46 +66,34 @@ export class ChatComponent implements OnInit, OnDestroy  {
     }
   }
 
-  /*initWebSocket(): void {
-    console.log("Initialize WebSocket Connection");
-    let ws = new SockJS(this.conroller.backendWebsocketEndPoint);
-    //this.stompClient = Stomp.over(ws);
-  }
-
-  WSConnect() {
+  initChatsCheck(): void {
+    //console.log(this.responceDestionation + this.conroller.getSocketSessionId());
     const _this = this;
-    _this.stompClient.connect({}, function (frame) {
-        _this.stompClient.subscribe(_this.topic, function (sdkEvent) {
-            _this.onMessageReceived(sdkEvent);
-        });
-        //_this.stompClient.reconnect_delay = 2000;
-    }, this.errorCallBack);
+    this.chatsSubscriprtion = this.conroller.stompClient.subscribe(this.responseDestionation, function(sdkEvent) {
+      let responseBody = JSON.parse(sdkEvent.body);
+      console.log("Chat response : " + sdkEvent.body);
+      //if (responseBody.answer == true || _this.userChats.length == 0) {
+        _this.loadAppUserChats();
+      //}
+    });
+    console.log(this.chatsSubscriprtion);
+    this.checkChats();
   }
 
-  WSDisconnect() {
-    if (this.stompClient !== null) {
-      this.stompClient.disconnect();
+  checkChats(): void {
+    this.conroller._send({userId: this.currentUser.userObject.id}, this.responseSubscription);
+  }
+
+  unsubscribeChats(): void{
+    if (this.chatsSubscriprtion) {
+      this.conroller._send({userId: this.currentUser.userObject.id }, this.rejectSubscriprion);
+      this.chatsSubscriprtion.unsubscribe();
     }
-    console.log("Disconnected");
+    this.chatsSubscriprtion = null;
   }
-
-  WSSendMessage(message) {
-    this.stompClient.send("/app/hello", {}, message);
-  }
-
-  onMessageReceived(message) {
-    console.log("Message Recieved from Server :: " + message);
-    //this.appComponent.handleMessage(JSON.stringify(message.body));
-  }
-
-  errorCallBack(error) {
-    console.log("errorCallBack -> " + error)
-    //setTimeout(() => {
-    //    this._connect();
-    //}, 5000);
-  }*/
 
   buildChatList(chats: Chat[]): void {
+    this.userChats = [];
     chats.forEach((chat) => {
       let recipient = (chat.user1.id == this.currentUser.userObject.id) ? chat.user2 : chat.user1; 
       let newComponentChatElement: ComponentDisplayChat = {
@@ -121,10 +110,6 @@ export class ChatComponent implements OnInit, OnDestroy  {
     let activeChildren = this.activatedRoute.children.length;
     if (activeChildren != 0) this.noChildRoute = false;
     else this.noChildRoute = true;
-  }
-
-  testRequest(): void {
-    console.log(this.currentUser.userObject);
   }
 
   getRandomColor() {
@@ -148,6 +133,7 @@ export class ChatComponent implements OnInit, OnDestroy  {
 
   ngOnDestroy(): void {
     this.navigationSubscription.unsubscribe();
+    this.unsubscribeChats();
   }
 
 }
