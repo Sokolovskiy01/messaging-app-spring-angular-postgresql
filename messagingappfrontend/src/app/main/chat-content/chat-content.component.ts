@@ -35,6 +35,7 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   readonly responseDestionation: string = "/user/userMessages/messages";
   readonly responseSubscription: string = "/messagesCheck";
   readonly rejectSubscriprion: string = "/messagesUnsubscribe";
+  tmpAppUserId = null;
 
   constructor(private conroller: ControllerService, private auth: AuthService, private router: Router, private route: ActivatedRoute, public currentUser: CurrentAppUser) {
     this.route.params.subscribe((params: Params) => {
@@ -52,6 +53,7 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit(): void {
+    this.tmpAppUserId = this.currentUser.userObject.id;
     this.currentUserColor = this.getColorByUserId(this.currentUser.userObject.id);
   }
 

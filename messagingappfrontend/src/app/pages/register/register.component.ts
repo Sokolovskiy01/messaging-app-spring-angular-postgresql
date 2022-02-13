@@ -35,11 +35,11 @@ export class RegisterComponent implements OnInit {
       this.router.navigate(['/chats']);
     }
     else {
-      this.conroller.userGetLogin().then(res => {
+      this.conroller.userGetLogin().then((res: HttpResponse<AppUser> | any) => {
         this.auth.loginUser(res);
         this.router.navigate(['/chats']);
       }, err => {
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
       })
     }
   }

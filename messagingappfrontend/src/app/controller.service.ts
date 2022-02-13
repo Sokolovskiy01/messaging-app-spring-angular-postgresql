@@ -65,7 +65,7 @@ export class ControllerService {
       return this.userLogin(email, password).toPromise();
     }
     else {
-      new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         reject('No data stored');
       });
     }

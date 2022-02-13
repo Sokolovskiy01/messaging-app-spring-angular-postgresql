@@ -222,7 +222,8 @@ i.category-shrink-button {
 }
 
 .chat-info-category-content-container {
-
+    position: relative;
+    margin: 6px 0px;
 }
 
 .chat-info-member-container {
@@ -231,13 +232,6 @@ i.category-shrink-button {
     padding: 3px 0;
     align-items: center;
     position: relative;
-    /*padding: 6px 0;
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    transition: var(--interface-transition);
-    border-radius: 7px;*/
 }
 
 .user-rounded-container {
@@ -281,4 +275,39 @@ i.category-shrink-button {
     font-size: 11pt;
     margin: 0;
     color: var(--font-color-secondary);
+}
+
+.chat-info-category-content-buttons-container {
+    width: 100%;
+    padding: 6px 1em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-info-button {
+    font-size: 9pt;
+    padding: 6px 10px;
+    background: none;
+    border-style: none;
+    height: 26px;
+    border-radius: 13px;
+    cursor: pointer;
+    opacity: var(--button-opacity);
+    transition: var(--interface-transition);
+}
+
+.chat-info-button:hover {
+    opacity: 1.0;
+}
+
+.button-red {
+    background-color: var(--error-color);
+    color: var(--app-background-primary);
+}
+
+.button-neutral {
+    background-color: var(--app-background-primary);
+    color: var(--font-color-primary);
 }

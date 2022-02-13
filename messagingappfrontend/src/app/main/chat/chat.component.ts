@@ -31,6 +31,7 @@ export class ChatComponent implements OnInit, OnDestroy  {
   readonly responseDestionation: string = "/user/userMessages/chats";
   readonly responseSubscription: string = "/chatsCheck";
   readonly rejectSubscriprion: string = "/chatsUnsubscribe";
+  tmpAppUserId = null;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private conroller: ControllerService, private auth: AuthService, public currentUser: CurrentAppUser) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
@@ -43,16 +44,18 @@ export class ChatComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     if (this.currentUser.isUserLoggedIn) {
       //this.loadAppUserChats();
+      this.tmpAppUserId = this.currentUser.userObject.id;
       this.initChatsCheck();
     }
     else {
-      this.conroller.userGetLogin().then(res => {
+      this.conroller.userGetLogin().then((res: HttpResponse<AppUser> | any) => {
         this.auth.loginUser(res);
         //this.loadAppUserChats();
+        this.tmpAppUserId = this.currentUser.userObject.id;
         this.initChatsCheck();
       }, err => {
         this.router.navigate(['/login']);
-      })
+      });
     }
   }
 
@@ -86,7 +89,7 @@ export class ChatComponent implements OnInit, OnDestroy  {
 
   unsubscribeChats(): void{
     if (this.chatsSubscriprtion) {
-      this.conroller._send({userId: this.currentUser.userObject.id }, this.rejectSubscriprion);
+      this.conroller._send({userId: this.tmpAppUserId }, this.rejectSubscriprion);
       this.chatsSubscriprtion.unsubscribe();
     }
     this.chatsSubscriprtion = null;

@@ -50,7 +50,7 @@ export class UserInfoComponent implements OnInit {
       this.refreshUserInfo();
     }
     else {
-      this.conroller.userGetLogin().then(res => {
+      this.conroller.userGetLogin().then((res: HttpResponse<AppUser> | any) => {
         this.auth.loginUser(res);
         this.refreshUserInfo();
       }, err => {

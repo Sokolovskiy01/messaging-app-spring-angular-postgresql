@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.currentUser.isUserLoggedIn) {
-      this.conroller.userGetLogin().then(res => {
+      this.conroller.userGetLogin().then((res: HttpResponse<AppUser> | any) => {
         this.auth.loginUser(res);
       }, err => {
         this.router.navigate(['/login']);
