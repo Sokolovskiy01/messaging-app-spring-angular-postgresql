@@ -4,7 +4,7 @@
         <div class="chat-list-serachfield-container">
             <div class="searchfield-container">
                 <i class="fi-br-search"></i>
-                <input type="text" class="search-input" placeholder="Search for chats..." />
+                <input type="text" class="search-input" [(ngModel)]="this.filterString" (input)="this.filterAppUserChats()" placeholder="Search for chats..." />
             </div>
         </div>
 
@@ -16,7 +16,7 @@
             </div>
             
             <ul class="chat-list">
-                <li *ngFor="let chat of this.userChats" class="chat-element" [routerLink]="['/chats/messages/' + chat.chatId]" [ngClass]="{ 'chat-element-unread' : !chat.currentAppUserSeen }" routerLinkActive="chat-element-selected" >
+                <li *ngFor="let chat of this.userChats" class="chat-element" [routerLink]="['/chats/messages/' + chat.chatId]" [ngClass]="{ 'chat-element-unread' : !chat.currentAppUserSeen, 'chat-element-hidden': !chat.display }" (click)="this.onChatClicked()" routerLinkActive="chat-element-selected" >
                     <div class="user-rounded-container">
                         <div class="round-container" [style.background-color]="chat.chatColors.background" >
                             <span *ngIf="chat.recipient.imageUrl == '' " [style.color]="chat.chatColors.text" >{{this.getUserInitials(chat.recipient.name)}}</span>

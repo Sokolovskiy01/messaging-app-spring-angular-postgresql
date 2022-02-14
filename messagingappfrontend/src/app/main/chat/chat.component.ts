@@ -11,7 +11,8 @@ interface ComponentDisplayChat {
   chatId: number,
   recipient: AppUser,
   currentAppUserSeen: boolean,
-  chatColors: any
+  chatColors: any,
+  display: boolean;
 }
 
 @Component({
@@ -26,6 +27,7 @@ export class ChatComponent implements OnInit, OnDestroy  {
 
   userChats: ComponentDisplayChat[] = [];
   chatsLoading: boolean = false;
+  filterString: string = "";
 
   chatsSubscriprtion: Subscription;
   readonly responseDestionation: string = "/user/userMessages/chats";
@@ -103,10 +105,27 @@ export class ChatComponent implements OnInit, OnDestroy  {
         chatId: chat.id,
         recipient: recipient,
         currentAppUserSeen: (chat.user1.id == this.currentUser.userObject.id) ? chat.user1Seen : chat.user2Seen,
-        chatColors: this.getColorByUserId(recipient.id)
+        chatColors: this.getColorByUserId(recipient.id),
+        display: true
       }
       this.userChats.push(newComponentChatElement);
     })
+  }
+
+  onChatClicked(): void {
+    this.clearFilter();
+  }
+
+  filterAppUserChats(): void {
+    this.userChats.forEach((chat: ComponentDisplayChat) => {
+      if (chat.recipient.name.toLowerCase().includes(this.filterString.toLowerCase())) chat.display = true;
+      else chat.display = false;
+    });
+  }
+
+  clearFilter(): void {
+    this.filterString = "";
+    this.filterAppUserChats();
   }
 
   checkRouteChange() : void {

@@ -14,6 +14,7 @@ import { AppUser, AppUserColor, Chat, Message, AppUserColorsArray } from 'src/ap
 export class ChatContentComponent implements OnInit, OnDestroy  {
 
   navigationSubscription: Subscription;
+  _window = window;
 
   /* Vataibles for messageField */
   messageText: string = "";
@@ -29,7 +30,9 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
   currentUserColor: AppUserColor;
   lastRecipientLoginDate: Date;
   chatMessages: Message[] = []; // must be sorted from newer to older
-  loading: boolean = false;
+  loading: boolean = true;
+
+  showInfo: boolean = false;
 
   messagesSubscription: Subscription;
   readonly responseDestionation: string = "/user/userMessages/messages";
@@ -69,11 +72,11 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
         this.currentChat = res.body;
         if (this.currentChat.user1.id == this.currentUser.userObject.id) {
           this.recipient = this.currentChat.user2
-          this.lastRecipientLoginDate = new Date(this.currentChat.user2.lastLogin);
+          this.lastRecipientLoginDate = this.currentChat.user2.lastLogin;
         }
         else {
           this.recipient = this.currentChat.user1;
-          this.lastRecipientLoginDate = new Date(this.currentChat.user2.lastLogin);
+          this.lastRecipientLoginDate = this.currentChat.user1.lastLogin;
         }
         this.loadMessages();
       }, (err: HttpErrorResponse) => {
@@ -127,7 +130,15 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
     }
   }
 
-  getColorByUserId(appUserId: number) {
+  openInfo(): void {
+    this.showInfo = true;
+  }
+
+  closeInfo(): void {
+    this.showInfo = false;
+  }
+
+  getColorByUserId(appUserId: number): AppUserColor {
     return AppUserColorsArray[appUserId % AppUserColorsArray.length]
   }
 
