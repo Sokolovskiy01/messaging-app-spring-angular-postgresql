@@ -117,12 +117,18 @@ public class ChatService {
     }
 
     public List<Chat> getAllAppUserChats(Long userId) {
-        List<Chat> usersChats = chatRepo.findAllByUser1IdOrUser2Id(userId, userId);
-        return usersChats;
+        return chatRepo.findAllByUser1IdOrUser2Id(userId, userId);
     }
 
     public Chat updateChat(Chat chat) {
         return chatRepo.save(chat);
+    }
+
+    public void deleteChat(Long chatId) {
+        Chat chat = this.chatRepo.getById(chatId);
+        List<Message> chatMessages = this.messageRepo.findAllByChat(chat);
+        this.messageRepo.deleteAll(chatMessages);
+        this.chatRepo.deleteById(chatId);
     }
 
 

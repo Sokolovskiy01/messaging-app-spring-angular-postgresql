@@ -132,6 +132,7 @@ export class ChatComponent implements OnInit, OnDestroy  {
     let activeChildren = this.activatedRoute.children.length;
     if (activeChildren != 0) this.noChildRoute = false;
     else this.noChildRoute = true;
+    this.loadAppUserChats();
   }
 
   getRandomColor() {

@@ -234,7 +234,6 @@
     height: fit-content;
     display: flex;
     align-items: center;
-    cursor: pointer;
 }
 
 p.category-name {

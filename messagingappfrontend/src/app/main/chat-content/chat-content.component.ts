@@ -46,7 +46,6 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
     });
     this.navigationSubscription = this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        console.log("gg");
         this.unsubscribeMessages();
         this.reloadComponent();
         //this.loadChat();
@@ -161,6 +160,28 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
         this.messageRowsCount = 1;
         this.messageText = "";
       }, (err: HttpErrorResponse) => console.error(err) );
+    }
+  }
+
+  onDeleteChatClicked(): void {
+    if (window.confirm("Are you sure that you want to delete chat? This action cannot be undone.")) {
+      // delete chat
+      this.conroller.delete("/chats/delete/" + this.chatId).subscribe((res: any) => {
+        console.log(res.body);
+        if (res.body.ok) {
+          console.log("navigate by body");
+          this.router.navigate(['/chats']);
+        }
+        else {
+          console.log("navigate by else");
+          this.router.navigate(['/chats']);
+        }
+      }, (err: HttpErrorResponse) => {
+        console.error(err);
+      })
+    }
+    else {
+      // cancel and do nothing
     }
   }
 

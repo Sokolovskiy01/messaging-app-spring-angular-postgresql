@@ -92,4 +92,15 @@ public class ChatController {
         return new ResponseEntity<>(mapStructMapper.messageListToMessageDTOList(chatService.getChatMessages(chatId)), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{chatId}")
+    public ResponseEntity<Map<String, Object>> deleteChat(@PathVariable("chatId") Long chatId) {
+        System.out.println("gg " + chatId);
+        Map<String, Object> answer = new HashMap<>();
+        boolean result = true;
+        try { this.chatService.deleteChat(chatId); }
+        catch (Exception e) { result = false; }
+        answer.put("ok", result);
+        return new ResponseEntity<>(answer, (result) ? HttpStatus.OK : HttpStatus.NOT_MODIFIED);
+    }
+
 }
