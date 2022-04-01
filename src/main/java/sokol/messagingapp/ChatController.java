@@ -84,12 +84,12 @@ public class ChatController {
 
     /* send message and receive list of all messages in chat */
     @PostMapping("/sendmessage")
-    public ResponseEntity<List<MessageDTO>> sendMessage(@RequestBody Map<String, Object> messageObject) {
+    public ResponseEntity<MessageDTO> sendMessage(@RequestBody Map<String, Object> messageObject) {
         Long chatId = ((Number) messageObject.get("chatId")).longValue();
         Long userId = ((Number) messageObject.get("userId")).longValue();
         String messageContent = (String) messageObject.get("message");
-        /* Message message = */ chatService.sendMessage(chatId, userId, messageContent);
-        return new ResponseEntity<>(mapStructMapper.messageListToMessageDTOList(chatService.getChatMessages(chatId)), HttpStatus.OK);
+        Message message =  chatService.sendMessage(chatId, userId, messageContent);
+        return new ResponseEntity<>(mapStructMapper.messageToMessageDTO(message), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{chatId}")

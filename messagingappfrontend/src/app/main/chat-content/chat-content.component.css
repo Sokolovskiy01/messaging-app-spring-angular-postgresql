@@ -95,6 +95,7 @@
     display: flex;
     align-items: center;
     padding: 3px 16px;
+    position: relative;
 }
 
 .message-block-container-recipient {
@@ -109,6 +110,19 @@
     width: fit-content;
     padding: 6px 10px;
     border-width: 1px;
+    transition: 0.3s ease-out all;
+}
+
+.message-slide-right {
+    /*transition: 0.3s ease-out all;*/
+    position: absolute;
+    animation: messageSlideToRight 0.5s ease-out;
+}
+
+.message-slide-left {
+    /*transition: 0.3s ease-out all;*/
+    position: absolute;
+    animation: messageSlideToLeft 0.5s ease-out;
 }
 
 .message-recipient {
@@ -133,6 +147,12 @@
     font-size: 9pt;
     padding: 4px 6px;
     margin: 0;
+    opacity: 0.0;
+    animation-delay: 0.5s;
+    animation-name: fadeIn;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 .message-create-container {
@@ -358,4 +378,33 @@ i.category-shrink-button {
         visibility: visible;
     }
 
+}
+
+@keyframes messageSlideToRight {
+    0% {
+        left: -100%;
+    }
+    99% {
+        left: 16px;
+        animation: none;
+    }
+}
+
+@keyframes messageSlideToLeft {
+    0% {
+        right: -100%;
+    }
+    100% {
+        right: 16px;
+        animation: none;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0.0;
+    }
+    100% {
+        opacity: 1.0;
+    }
 }

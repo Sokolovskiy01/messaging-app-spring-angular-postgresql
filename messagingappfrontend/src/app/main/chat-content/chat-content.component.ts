@@ -87,8 +87,8 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
 
   loadMessages(): void {
     this.loading = true;
-    this.conroller.get('/chats/messages/' + this.chatId + '?&userid=' + this.currentUser.userObject.id ).subscribe((res2: HttpResponse<Message[]>) => {
-      this.chatMessages = res2.body.sort( this._compareMessages );
+    this.conroller.get('/chats/messages/' + this.chatId + '?&userid=' + this.currentUser.userObject.id ).subscribe((res: HttpResponse<Message[]>) => {
+      this.chatMessages = res.body.sort( this._compareMessages );
       this.recipientColor = this.getColorByUserId(this.recipient.id);
       this.loading = false;
     }, (err2: HttpErrorResponse) => {
@@ -155,8 +155,8 @@ export class ChatContentComponent implements OnInit, OnDestroy  {
 
   sendMessage(): void {
     if (!this.loading || this.messageText.length > 1) {
-      this.conroller.post('/chats/sendmessage', { userId: this.currentUser.userObject.id, chatId: parseInt(this.chatId), message: this.messageText } ).subscribe((res: HttpResponse<Message[]>) => {
-        this.chatMessages = res.body.sort( this._compareMessages );
+      this.conroller.post('/chats/sendmessage', { userId: this.currentUser.userObject.id, chatId: parseInt(this.chatId), message: this.messageText } ).subscribe((res: HttpResponse<Message>) => {
+        this.addNewMessage(res.body);
         this.messageRowsCount = 1;
         this.messageText = "";
       }, (err: HttpErrorResponse) => console.error(err) );
